@@ -1,0 +1,27 @@
+Package: nswtheme
+Title: Apply the NSW Government brand to data viz objects
+Version: 0.0.0.9000
+Authors@R: 
+    person("Tyson", "Goddard", , "tyson.goddard@treasury.nsw.gov.au", role = c("aut", "cre"))
+Description: A set of scales (colour/fill, x, y) and themes for chart
+    ('ggplot2') and table ('flextable') objects consistent with the 'NSW
+    Government brand guidelines'
+License: MIT + file LICENSE
+Depends: 
+    dplyr,
+    ggplot2 (>= 4.0.0),
+    lubridate,
+    scales,
+    R (>= 4.1.0)
+Imports: 
+    extrafont,
+    flextable,
+    Rttf2pt1 (== 1.3.8),
+    remotes
+Suggests: 
+    knitr,
+    rmarkdown
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.3
+VignetteBuilder: knitr
