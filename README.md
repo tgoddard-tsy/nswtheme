@@ -2,7 +2,6 @@
 The package can be installed from GitHub using `devtools` or similar packages, which you may need to install first.
 
 ```{r installation, eval = FALSE}
-#| warning: false
 # install.packages('devtools')
 devtools::install_github("tgoddard-tsy/nswtheme")
 
@@ -16,7 +15,6 @@ pak::pkg_install("tgoddard-tsy/nswtheme")
 After installing the package, you can load it like any other package.
 
 ```{r load-packages}
-#| warning: false
 library(tidyverse)
 library(lubridate)
 library(nswtheme)
