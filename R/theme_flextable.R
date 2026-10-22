@@ -1,33 +1,55 @@
-#' flextable theme based on \strong{NSW Treasury} brand template
+#' NSW Government flextable themes
 #'
-#' Apply \emph{NSW Treasury} theme to a flextable object.
-#' @param x a flextable object
-#' @param odd_header,odd_body,even_header,even_body odd/even colors for table header and body
-#' @param digits number of decimal places to use for cells of class \code{double}. For select columns/rows/cells, use \code{flextable::\link[flextable]{colformat_double}()}. 
-#' @section Illustration:
-#' NSW Government theme (default):
-#' \if{html}{\figure{ft_nsw.png}{options: width=550 alt="A 'flextable' object with NSW Government theme"}}
-#' \cr
-#' NSW Treasury theme:
-#' \if{html}{\figure{ft_tsy.png}{options: width=550 alt="A 'flextable' object with NSW Treasury theme"}}
-#' @seealso This theme has been modified from \code{flextable::\link[flextable]{theme_zebra}()}
-#' @examples 
+#' Apply NSW Government styling to a [flextable::flextable()] object.
+#'
+#' `theme_nsw_flextable()` provides the standard NSW Government table theme.
+#' `theme_tsy_flextable()` applies NSW Treasury colours, while
+#' `theme_nsw_flextable_budget()` provides defaults for Budget tables.
+#'
+#' The themes format table fonts, text colours, borders, header and body
+#' backgrounds, alignment and numeric values.
+#'
+#' @param x A [flextable::flextable()] object.
+#' @param base_size Base font size, in points.
+#' @param digits Number of decimal places used to format numeric columns.
+#' @param ink Foreground colour used for body and footer text and table
+#'   borders.
+#' @param paper Background colour used as the default table background.
+#' @param accent Accent colour used by the theme.
+#' @param odd_header,even_header Background colours for odd and even header
+#'   rows.
+#' @param odd_body,even_body Background colours for odd and even body rows.
+#'
+#' @returns A formatted [flextable::flextable()] object.
+#'
+#' @examples
 #' library(flextable)
-#' 
+#'
 #' ft <- flextable(head(airquality))
-#' ft <- theme_tsy_flextable(ft)
-#' ft
-#' @name theme_tsy_flextable
+#'
+#' # Standard NSW Government theme
+#' theme_nsw_flextable(ft)
+#'
+#' # NSW Treasury theme
+#' theme_tsy_flextable(ft)
+#'
+#' # Budget theme
+#' theme_nsw_flextable_budget(ft)
+#'
+#' @seealso
+#' [flextable::flextable()], [set_defaults_nsw()]
+#'
+#' @name theme_nsw_flextable
 NULL
 
-#' @rdname theme_tsy_flextable
+#' @rdname theme_nsw_flextable
 #' @export
 theme_nsw_flextable <- function (x, base_size = 9, digits = 1,
                                  ink = grey_01, paper = 'white', accent = blue_04, 
                                  odd_header = blue_01, even_header = blue_01, odd_body = paper, even_body = accent){
   # Adapted from theme_zebra()
   if (!inherits(x, 'flextable')) {
-    stop("theme_tsy_flextable supports only flextable objects.")
+    stop("`theme_nsw_flextable()` supports only flextable objects.")
   }
   h_nrow <- nrow_part(x, 'header')
   f_nrow <- nrow_part(x, 'footer')
@@ -73,7 +95,7 @@ theme_nsw_flextable <- function (x, base_size = 9, digits = 1,
   fix_border_issues(x)
 }
 
-#' @rdname theme_tsy_flextable
+#' @rdname theme_nsw_flextable
 #' @export
 theme_tsy_flextable <- function (x, base_size = 9, digits = 1, 
                                  ink = grey_01, paper = 'white', accent = green_04, 
@@ -83,7 +105,7 @@ theme_tsy_flextable <- function (x, base_size = 9, digits = 1,
                       odd_header = odd_header, even_header = even_header, odd_body = odd_body, even_body = even_body)
 }
 
-#' @rdname theme_tsy_flextable
+#' @rdname theme_nsw_flextable
 #' @export
 theme_nsw_flextable_budget <- function (x, base_size = 8, digits = 1, 
                                         ink = 'black', paper = 'transparent', accent = grey_04, 

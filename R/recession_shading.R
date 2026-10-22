@@ -1,8 +1,39 @@
-#' Add a layer of recession shading
+#' Add recession shading to a plot
 #'
-#' This is a wrapper for \code{\link[ggplot2]{geom_rect}()}, with convenient defaults for recession shading. Defaults to recessions in Australia dataset (\code{\link{recessions_aus}}).
-#' @param ... Arguments passed to \code{geom_rect()}.
-#' @seealso \code{\link{lockdown_shading}()}
+#' Add shaded regions representing periods of economic recession.
+#'
+#' `recession_shading()` is a wrapper around [ggplot2::geom_rect()] with
+#' defaults for plotting recession periods. By default, it uses
+#' [recessions_aus], with `peak` and `trough` defining the beginning and end
+#' of each shaded period.
+#'
+#' @param data Data frame containing recession periods. Defaults to
+#'   [recessions_aus].
+#' @param mapping Aesthetic mapping passed to [ggplot2::geom_rect()]. By
+#'   default, `xmin = peak`, `xmax = trough`, `ymin = -Inf` and
+#'   `ymax = Inf`.
+#' @param fill Fill colour for the shaded regions. Defaults to `grey_01`.
+#' @param alpha Transparency of the shaded regions. Defaults to `0.1`.
+#' @param show.legend Logical indicating whether this layer should be included
+#'   in plot legends. Defaults to `FALSE`.
+#' @param ... Other arguments passed to [ggplot2::geom_rect()].
+#'
+#' @returns A ggplot2 layer that can be added to a plot.
+#'
+#' @seealso [lockdown_shading()], [recessions_aus], [recessions_nsw]
+#'
+#' @examples
+#' library(ggplot2)
+#'
+#' ggplot(economics, aes(date, unemploy)) +
+#'   recession_shading() +
+#'   geom_line()
+#'
+#' # Use NSW recession periods
+#' ggplot(economics, aes(date, unemploy)) +
+#'   recession_shading(data = recessions_nsw) +
+#'   geom_line()
+#'
 #' @export
 recession_shading <- function(data = recessions_aus, mapping = aes(x = NULL, y = NULL, colour = NULL, group = NULL, linetype = NULL,
                                                                    xmin = peak, xmax = trough, ymin = -Inf, ymax = Inf), 
@@ -13,19 +44,55 @@ recession_shading <- function(data = recessions_aus, mapping = aes(x = NULL, y =
             show.legend = show.legend, ...)
 }
 
-#' Add a layer of COVID-19 lockdown shading
+
+#' Add COVID-19 lockdown shading to a plot
 #'
-#' This is a wrapper for \code{\link[ggplot2]{geom_rect}()}, with convenient defaults for COVID-19 lockdown shading. Defaults to using the NSW lockdown dataset (\code{\link{lockdowns_nsw}}).
-#' @param freq Frequency at which to show lockdown data. Defaults to "d". Options:\itemize{
-#'   \item{Daily [default]: \code{freq = "d"}}
-#'   \item{Weekly: \code{freq = "w"}}
-#'   \item{Monthly: \code{freq = "m"}}
-#'   \item{Quarterly: \code{freq = "q"}}
-#'   \item{Yearly: \code{freq = "y"}}
-#'   \item{Yearly (Financial): \code{freq = "fy"}}
-#'   }
-#' @param ... Arguments passed to \code{geom_rect()}.
-#' @seealso \code{\link{recession_shading}()}
+#' Add shaded regions representing periods of COVID-19 lockdown.
+#'
+#' `lockdown_shading()` is a wrapper around [ggplot2::geom_rect()] with
+#' defaults for plotting lockdown periods. By default, it uses
+#' [lockdowns_nsw], with `start` and `end` defining each shaded period.
+#'
+#' The `freq` argument adjusts lockdown start and end dates to the boundaries
+#' of the requested period before the shading is added.
+#'
+#' @param freq Frequency at which to display lockdown periods. Defaults to
+#'   `"d"`. Supported values include:
+#'
+#'   * `"d"` for daily;
+#'   * `"w"` for weekly;
+#'   * `"m"` for monthly;
+#'   * `"q"` for quarterly;
+#'   * `"y"` for calendar year; and
+#'   * `"fy"` for financial year.
+#' @param data Data frame containing lockdown periods. Defaults to
+#'   [lockdowns_nsw].
+#' @param mapping Aesthetic mapping passed to [ggplot2::geom_rect()]. By
+#'   default, `xmin = start`, `xmax = end`, `ymin = -Inf` and
+#'   `ymax = Inf`.
+#' @param fill Fill colour for the shaded regions. Defaults to `grey_01`.
+#' @param alpha Transparency of the shaded regions. Defaults to `0.1`.
+#' @param show.legend Logical indicating whether this layer should be included
+#'   in plot legends. Defaults to `FALSE`.
+#' @param ... Other arguments passed to [ggplot2::geom_rect()].
+#'
+#' @returns A ggplot2 layer that can be added to a plot.
+#'
+#' @seealso [recession_shading()], [lockdowns_nsw], [lockdowns_vic],
+#'   [lockdowns_qld], [lockdowns_wa]
+#'
+#' @examples
+#' library(ggplot2)
+#'
+#' ggplot(economics, aes(date, unemploy)) +
+#'   lockdown_shading() +
+#'   geom_line()
+#'
+#' # Use Victorian lockdown periods
+#' ggplot(economics, aes(date, unemploy)) +
+#'   lockdown_shading(data = lockdowns_vic) +
+#'   geom_line()
+#'
 #' @export
 lockdown_shading <- function(freq = "d", data = lockdowns_nsw, mapping = aes(x = NULL, y = NULL, colour = NULL, group = NULL, linetype = NULL,
                                                                              xmin = start, xmax = end, ymin = -Inf, ymax = Inf), 
@@ -67,9 +134,10 @@ lockdown_shading <- function(freq = "d", data = lockdowns_nsw, mapping = aes(x =
   }
   
   df <- df |> 
-    group_by(start, end) |> 
-    summarise(days = sum(days),
-              n_lockdowns = n())
+    dplyr::group_by(start, end) |> 
+    dplyr::summarise(days = sum(days),
+                     n_lockdowns = dplyr::n()
+                     )
   
   geom_rect(data = df, 
             mapping = mapping, 

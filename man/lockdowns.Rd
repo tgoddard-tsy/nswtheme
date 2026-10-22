@@ -11,11 +11,11 @@
 \format{
 A data frame with 4 variables:
 \describe{
-  \item{start}{date the lockdown came into effect}
-  \item{end}{date the lockdown was lifted}
-  \item{days}{length of lockdown in days}
-  \item{name}{Name of lockdown (descriptive only)}
-  }
+\item{start}{date the lockdown came into effect}
+\item{end}{date the lockdown was lifted}
+\item{days}{length of lockdown in days}
+\item{name}{Name of lockdown (descriptive only)}
+}
 
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 2 rows and 4 columns.
 
@@ -38,10 +38,10 @@ lockdowns_wa
 A dataset containing lockdown periods related to COVID-19, marked by start and end dates. Lockdown is assumed if at least one major city is in lockdown.\cr\cr
 Lockdowns for:
 \itemize{
-  \item{New South Wales (not including the Northern Beaches lockdown)}
-  \item{Victoria}
-  \item{Queensland}
-  \item{Western Australia}
+\item{New South Wales (not including the Northern Beaches lockdown)}
+\item{Victoria}
+\item{Queensland}
+\item{Western Australia}
 }
 }
 \keyword{datasets}

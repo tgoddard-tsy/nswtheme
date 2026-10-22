@@ -2,7 +2,7 @@
 % Please edit documentation in R/theme.R
 \name{ggsave_nsw}
 \alias{ggsave_nsw}
-\title{A wrapper for ggsave() with default dimensions}
+\title{Save a plot with NSW Government defaults}
 \usage{
 ggsave_nsw(
   filename,
@@ -16,13 +16,36 @@ ggsave_nsw(
 )
 }
 \arguments{
-\item{...}{Arguments passed on to \code{\link[ggplot2]{ggsave}()}.}
+\item{filename}{File name for the saved plot.}
+
+\item{plot}{Plot or grid object to save. Defaults to
+\code{\link[ggplot2:last_plot]{ggplot2::last_plot()}}.}
+
+\item{width, height}{Plot dimensions. Defaults to \code{15.24} cm wide and
+\code{9.98} cm high.}
+
+\item{units}{Units for \code{width} and \code{height}. Defaults to \code{"cm"}.}
+
+\item{dpi}{Plot resolution. Defaults to \code{700}.}
+
+\item{device}{Graphics device. If \code{NULL}, an appropriate device is
+selected from the file extension where supported.}
+
+\item{...}{Other arguments passed to \code{\link[ggplot2:ggsave]{ggplot2::ggsave()}}.}
+}
+\value{
+Invisibly returns the value returned by \code{\link[ggplot2:ggsave]{ggplot2::ggsave()}}.
 }
 \description{
-Save a ggplot (or other grid object) with useful defaults. This is the same as \code{\link[ggplot2]{ggsave}()}, but with the following features: 
+A wrapper around \code{\link[ggplot2:ggsave]{ggplot2::ggsave()}} with convenient default dimensions
+and output devices.
+}
+\details{
+\code{ggsave_nsw()}:
 \itemize{
- \item{Default size of 15.24cm x 9.98cm (width x height)}
- \item{Selects the best \code{device} option, when saving file as ".pdf" (\code{cairo_pdf}) or ".eps" (\code{cario_ps}) extensions.}
+\item defaults to a size of 15.24 cm by 9.98 cm;
+\item slightly increases the default height when the plot has a title; and
+\item selects a Cairo device automatically for PDF and EPS output.
 }
 }
 \references{

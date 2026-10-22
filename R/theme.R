@@ -1,26 +1,52 @@
-#' ggplot theme based on \strong{NSW Government} brand guidelines
+#' NSW Government ggplot theme
 #'
-#' A theme object for the style of \emph{New South Wales Government}.
-#' @param ... Arguments passed on to \code{\link[ggplot2]{theme}()}.
-#' @param legend.position The position of legends ("none", "left", "right", "bottom" or "top" for positioning legend outside plot) OR (two-element numeric vector for positioning legend inside plot). Defaults to \code{c(0.02,0.98)} (near the top-left corner of the plot area).
-#' @param legend.justification anchor point for positioning legend inside plot ("center" or two-element numeric vector) or the justification according to the plot area when positioned outside the plot. Defaults to \code{c(0,1)} (anchored to top-left corner of the legend box).
-#' @param water_background For maps, logical determining whether to use a blue \code{panel.background} to represent the presence of the oceans.
-#' @returns An object of class \code{\link[ggplot2]{theme}()}
-#' @references \url{https://www.nsw.gov.au/sites/default/files/_static/nsw-gov-masterbrand-guidelines.pdf}
-#' @examples 
-#' library("ggplot2")
-#' 
-#' p <- ggplot(data = filter(economics_long, variable %in% c('uempmed', 'psavert'))) + 
-#'   geom_line(mapping = aes(x = date, y = value, colour = variable)) +
+#' A ggplot2 theme based on NSW Government brand guidelines.
+#'
+#' `theme_nsw()` provides the standard theme. `theme_nsw_map()` adapts the
+#' theme for maps by removing axes and grid lines and optionally displaying
+#' a water background.
+#'
+#' @param budget Logical. If `TRUE`, use the Budget variant of the theme.
+#' @param textbox Logical. If `TRUE`, use ggtext textbox elements for the
+#'   plot title and caption.
+#' @param base_size Base font size, in points.
+#' @param base_line_size Base line width.
+#' @param base_family Font family used for general text.
+#' @param header_family Font family used for headings.
+#' @param ink Foreground colour used for text, axes and other theme elements.
+#' @param paper Background colour used for the plot.
+#' @param accent Accent colour used for grid lines and other theme elements.
+#' @param legend.position Position of the legend. Defaults to `"inside"` for
+#'   `theme_nsw()`.
+#' @param legend.position.inside Two-element numeric vector specifying the
+#'   position of an inside legend. Defaults to `c(0.02, 0.98)`.
+#' @param legend.justification Justification of the legend. Defaults to
+#'   `c(0, 1)` for `theme_nsw()`.
+#' @param water_background Logical. For maps, whether to use a blue panel
+#'   background to represent water.
+#' @param ... Additional arguments passed to [ggplot2::theme()].
+#'
+#' @returns A [ggplot2::theme()] object.
+#'
+#' @references
+#' NSW Government masterbrand guidelines:
+#' \url{https://www.nsw.gov.au/sites/default/files/_static/nsw-gov-masterbrand-guidelines.pdf}
+#'
+#' @examples
+#' library(ggplot2)
+#'
+#' ggplot(mpg, aes(displ, hwy, colour = class)) +
+#'   geom_point() +
 #'   theme_nsw() +
 #'   scale_colour_nsw()
 #'
-#' # Facets:
-#' p <- ggplot(data = mpg) +
-#'   geom_jitter(mapping = aes(x = displ, y = hwy, colour = class)) +
-#'   facet_wrap(~ manufacturer, nrow = 3)
+#' # Facets
+#' ggplot(mpg, aes(displ, hwy, colour = class)) +
+#'   geom_jitter() +
+#'   facet_wrap(~manufacturer, nrow = 3) +
 #'   theme_nsw() +
 #'   scale_colour_nsw()
+#'
 #' @name theme_nsw
 NULL
 
@@ -156,10 +182,16 @@ theme_nsw_map <- function(budget = FALSE, water_background = FALSE, textbox = FA
 }
 
 
-#' Adjust the margin around plot
-#' 
-#' Increase \code{right} margin if you need more space for your x-axis label.
-#' @param right,left,top,bottom Number of pts to increase margin by.
+#' Adjust the plot margin
+#'
+#' Increase one or more margins around a plot. For example, increase `right`
+#' when additional space is needed for an x-axis label.
+#'
+#' @param right,left,top,bottom Amount, in points, to add to each plot
+#'   margin. Defaults to `0`.
+#'
+#' @returns A [ggplot2::theme()] object that modifies the plot margin.
+#'
 #' @export
 adjust_margin <- function(right = 0, left = 0, top = 0, bottom = 0){
   base_size <- 9
@@ -168,24 +200,36 @@ adjust_margin <- function(right = 0, left = 0, top = 0, bottom = 0){
 }
 
 
-#' A wrapper for labs() with useful defaults
+#' Plot labels with useful defaults
 #'
-#' This is the same as using \code{\link[ggplot2]{labs}()}, except \code{labs_nsw()}:
-#' \itemize{
-#'  \item{Puts the \code{tag} and \code{title} together on the same line.}
-#'  \item{Defaults to \code{x = NULL}; since it is usually a date axis which doesn't need to be titled (\code{labs()} default is \code{x = waiver()}).}
-#'  \item{Provides an option to capitalise the \code{tag} and \code{title}.}
-#' }
-#' @param ... Arguments passed on to \code{\link[ggplot2]{labs}()}.
-#' @param uppercase If \code{TRUE} (default), will capitalise \code{tag} and \code{title} text.
-#' @examples 
+#' A wrapper around [ggplot2::labs()] with defaults used by nswtheme.
+#'
+#' Compared with [ggplot2::labs()], `labs_nsw()`:
+#'
+#' * combines `tag` and `title` on the same line;
+#' * defaults to `x = NULL`, which is useful for untitled date axes; and
+#' * can convert the combined tag and title to uppercase.
+#'
+#' @param title Plot title.
+#' @param x X-axis title. Defaults to `NULL`.
+#' @param ... Other arguments passed to [ggplot2::labs()].
+#' @param tag Plot tag. When supplied, it is combined with `title`.
+#' @param uppercase Logical. If `TRUE`, convert the tag and title to
+#'   uppercase. Defaults to `FALSE`.
+#'
+#' @returns A ggplot2 labels object.
+#'
+#' @examples
 #' library(ggplot2)
-#' 
-#' ggplot(economics, aes(x = date, y = uempmed)) +
+#'
+#' ggplot(economics, aes(date, uempmed)) +
 #'   geom_line() +
-#'   labs_nsw(tag = "Figure 0.0:",
-#'            title = "Median duration of unemployment",
-#'            y = "Weeks")
+#'   labs_nsw(
+#'     tag = "Figure 0.0:",
+#'     title = "Median duration of unemployment",
+#'     y = "Weeks"
+#'   )
+#'
 #' @export
 labs_nsw <- function(title = NULL, x = NULL, ..., tag = NULL, uppercase = FALSE) {
   if (!is.null(tag)) {
@@ -201,15 +245,33 @@ labs_nsw <- function(title = NULL, x = NULL, ..., tag = NULL, uppercase = FALSE)
 }
 
 
-#' A wrapper for ggsave() with default dimensions
+#' Save a plot with NSW Government defaults
 #'
-#' Save a ggplot (or other grid object) with useful defaults. This is the same as \code{\link[ggplot2]{ggsave}()}, but with the following features: 
-#' \itemize{
-#'  \item{Default size of 15.24cm x 9.98cm (width x height)}
-#'  \item{Selects the best \code{device} option, when saving file as ".pdf" (\code{cairo_pdf}) or ".eps" (\code{cario_ps}) extensions.}
-#' }
-#' @param ... Arguments passed on to \code{\link[ggplot2]{ggsave}()}.
-#' @references \url{https://nswgov.sharepoint.com/sites/inside-treasury/SitePages/Brand-Hub.aspx}
+#' A wrapper around [ggplot2::ggsave()] with convenient default dimensions
+#' and output devices.
+#'
+#' `ggsave_nsw()`:
+#'
+#' * defaults to a size of 15.24 cm by 9.98 cm;
+#' * slightly increases the default height when the plot has a title; and
+#' * selects a Cairo device automatically for PDF and EPS output.
+#'
+#' @param filename File name for the saved plot.
+#' @param plot Plot or grid object to save. Defaults to
+#'   [ggplot2::last_plot()].
+#' @param width,height Plot dimensions. Defaults to `15.24` cm wide and
+#'   `9.98` cm high.
+#' @param units Units for `width` and `height`. Defaults to `"cm"`.
+#' @param dpi Plot resolution. Defaults to `700`.
+#' @param device Graphics device. If `NULL`, an appropriate device is
+#'   selected from the file extension where supported.
+#' @param ... Other arguments passed to [ggplot2::ggsave()].
+#'
+#' @returns Invisibly returns the value returned by [ggplot2::ggsave()].
+#'
+#' @references
+#' \url{https://nswgov.sharepoint.com/sites/inside-treasury/SitePages/Brand-Hub.aspx}
+#'
 #' @export
 ggsave_nsw <- function(filename, plot = last_plot(), width = 15.24, height = 9.98, units = 'cm', 
                        dpi = 700, device = NULL, ...){

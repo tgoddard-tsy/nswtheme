@@ -2,7 +2,7 @@
 % Please edit documentation in R/recession_shading.R
 \name{recession_shading}
 \alias{recession_shading}
-\title{Add a layer of recession shading}
+\title{Add recession shading to a plot}
 \usage{
 recession_shading(
   data = recessions_aus,
@@ -15,11 +15,47 @@ recession_shading(
 )
 }
 \arguments{
-\item{...}{Arguments passed to \code{geom_rect()}.}
+\item{data}{Data frame containing recession periods. Defaults to
+\link{recessions_aus}.}
+
+\item{mapping}{Aesthetic mapping passed to \code{\link[ggplot2:geom_rect]{ggplot2::geom_rect()}}. By
+default, \code{xmin = peak}, \code{xmax = trough}, \code{ymin = -Inf} and
+\code{ymax = Inf}.}
+
+\item{fill}{Fill colour for the shaded regions. Defaults to \code{grey_01}.}
+
+\item{alpha}{Transparency of the shaded regions. Defaults to \code{0.1}.}
+
+\item{show.legend}{Logical indicating whether this layer should be included
+in plot legends. Defaults to \code{FALSE}.}
+
+\item{...}{Other arguments passed to \code{\link[ggplot2:geom_rect]{ggplot2::geom_rect()}}.}
+}
+\value{
+A ggplot2 layer that can be added to a plot.
 }
 \description{
-This is a wrapper for \code{\link[ggplot2]{geom_rect}()}, with convenient defaults for recession shading. Defaults to recessions in Australia dataset (\code{\link{recessions_aus}}).
+Add shaded regions representing periods of economic recession.
+}
+\details{
+\code{recession_shading()} is a wrapper around \code{\link[ggplot2:geom_rect]{ggplot2::geom_rect()}} with
+defaults for plotting recession periods. By default, it uses
+\link{recessions_aus}, with \code{peak} and \code{trough} defining the beginning and end
+of each shaded period.
+}
+\examples{
+library(ggplot2)
+
+ggplot(economics, aes(date, unemploy)) +
+  recession_shading() +
+  geom_line()
+
+# Use NSW recession periods
+ggplot(economics, aes(date, unemploy)) +
+  recession_shading(data = recessions_nsw) +
+  geom_line()
+
 }
 \seealso{
-\code{\link{lockdown_shading}()}
+\code{\link[=lockdown_shading]{lockdown_shading()}}, \link{recessions_aus}, \link{recessions_nsw}
 }

@@ -1,3 +1,3 @@
 # .onLoad <- function(libname, pkgname) {
-#   set_tsy_defaults()
+#   set_defaults_nsw()
 # }

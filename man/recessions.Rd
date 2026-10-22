@@ -9,9 +9,9 @@
 \format{
 A data frame with 2 variables:
 \describe{
-  \item{peak}{date of peak, the quarter preceding any recession period}
-  \item{trough}{date of trough, the quarter when the recessionary period reached its trough}
-  }
+\item{peak}{date of peak, the quarter preceding any recession period}
+\item{trough}{date of trough, the quarter when the recessionary period reached its trough}
+}
 
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 8 rows and 2 columns.
 
@@ -26,7 +26,7 @@ recessions_aus
 recessions_nsw
 }
 \description{
-A dataset containing periods of economic recession, marked by the peak and trough. A recession is defined as two or more consecutive quarters of negative GDP growth. 
+A dataset containing periods of economic recession, marked by the peak and trough. A recession is defined as two or more consecutive quarters of negative GDP growth.
 GDP sourced from ABS National Accounts (beginning December quarter 1959). For NSW, State Final Demand (SFD) is used (beginning September quarter 1985).
 }
 \keyword{datasets}

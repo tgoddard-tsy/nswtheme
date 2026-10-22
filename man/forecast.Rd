@@ -4,35 +4,83 @@
 \alias{forecast}
 \alias{forecast_shading}
 \alias{forecast_line}
-\title{Forecast line or shading}
+\title{Distinguish forecast and historical periods}
 \usage{
 forecast_shading(
   date,
   label = "Forecast",
-  facet = NULL,
-  facet.variable = "category",
   fill = grey_02,
-  alpha = 0.1
+  alpha = 0.1,
+  facet = NULL,
+  facet_variable = "category"
 )
 
 forecast_line(
   date,
   label = "Forecast",
-  facet = NULL,
-  facet.variable = "facet",
   linetype = 1,
-  colour = grey_01
+  colour = grey_01,
+  facet = NULL,
+  facet_variable = "category"
 )
 }
 \arguments{
-\item{date}{The latest historical date (before forecasts start).}
+\item{date}{Date marking the end of the historical period and the start
+of the forecast period.}
 
-\item{label}{A character string to annotate the forecasts with. Defaults to "Forecast".}
+\item{label}{Character string used to annotate the forecast period.
+Defaults to \code{"Forecast"}.}
 
-\item{facet}{If used in a faceted ggplot, specify the facet(s) you want the \code{label} to appear on.}
+\item{fill}{Fill colour used by \code{forecast_shading()}. Defaults to
+\code{grey_02}.}
 
-\item{facet.variable}{If used in a faceted ggplot, the variable name used in your \code{facet_wrap()}. Defaults to "category", i.e. \code{facet_wrap(~category)}.}
+\item{alpha}{Transparency of the shading added by \code{forecast_shading()}.
+Defaults to \code{0.1}.}
+
+\item{facet}{Facet value or values in which to display \code{label}. If
+\code{NULL}, the annotation is displayed without restricting it to particular
+facets.}
+
+\item{facet_variable}{Character string giving the name of the faceting
+variable when \code{facet} is supplied. Defaults to \code{"category"}.}
+
+\item{linetype}{Line type used by \code{forecast_line()}. Defaults to \code{1}.}
+
+\item{colour}{Line colour used by \code{forecast_line()}. Defaults to
+\code{grey_01}.}
+}
+\value{
+A list of ggplot2 layers that can be added to a plot.
 }
 \description{
-Distinguish forecasts from historical data with either shading or a vertical line.
+Add a vertical line or shaded region to distinguish forecast observations
+from historical data.
+}
+\details{
+\code{forecast_line()} adds a vertical line at \code{date}, while
+\code{forecast_shading()} shades the region after \code{date}. Both functions add
+a text annotation, which defaults to \code{"Forecast"}.
+
+In faceted plots, \code{facet} and \code{facet_variable} can be used to display the
+annotation only in selected facets.
+}
+\examples{
+library(ggplot2)
+
+p <- ggplot(economics, aes(date, unemploy)) +
+  geom_line()
+
+# Mark the forecast period with a line
+p + forecast_line(as.Date("2010-01-01"))
+
+# Shade the forecast period
+p + forecast_shading(as.Date("2010-01-01"))
+
+# Change the annotation and line type
+p + forecast_line(
+  as.Date("2010-01-01"),
+  label = "Projection",
+  linetype = "dashed"
+)
+
 }

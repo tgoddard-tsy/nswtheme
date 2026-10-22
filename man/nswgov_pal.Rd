@@ -6,36 +6,86 @@
 \title{NSW Government colour palette function}
 \usage{
 nswgov_pal(
-  colour_cols = c("Grey", "Blue", "Red", "Green", "Teal", "Purple", "Fuchsia", "Orange",
-    "Yellow", "Brown"),
+  colour_cols = NULL,
   tonal_rows = NULL,
-  order = c("colour_col", "tonal_row"),
+  hierarchy = c("colour_col", "tonal_row"),
+  colours = NULL,
   reverse = FALSE,
   pattern = FALSE
 )
 
 nswgov_ramp_pal(
-  colours = c(grey_03, blue_02, blue_01),
+  colours = NULL,
   na.colour = grey_04,
   reverse = FALSE,
   alpha = TRUE
 )
 }
-\description{
-A utility function for filtering and sorting the \emph{NSW Government} palette. 
-Can include different decisions based on the number of colours needed.
+\arguments{
+\item{colour_cols}{Character vector specifying the "colour columns" to use from the palette. For example, \code{c("Blue", "Green", "Red")}.}
+
+\item{tonal_rows}{Numeric or character vector specifying the "tonal rows" to use from the palette. Values must correspond to tonal rows 1 to 4;
+for example, \code{1:3} or \code{c("01", "02", "03")}. If \code{NULL}, tonal rows are selected automatically based on the number of values needed.}
+
+\item{hierarchy}{Character vector specifying how to sort/cycle through the colour palette. Defaults to \code{c("colour_col", "tonal_row")} which will sort by \code{colour_col} first and then \code{tonal_row} - e.g. Blue 01, ..., Blue 03, Grey 01, ... Grey 03, etc.}
+
+\item{colours}{Character vector specifying the colour values to use, e.g. c(green_03, red_02, teal_01). If used, this will override the \code{colour_cols} and \code{tonal_rows} algorithm.}
+
+\item{reverse}{Logical. If \code{TRUE}, reverses the colours in the selected palette. \code{FALSE} by default.}
+
+\item{pattern}{Logical. Whether to use the tonal-row defaults for pattern fills. Used by \code{scale_pattern_fill_nsw()}.}
 }
+\value{
+A palette function that takes the number of colours required, \code{n}, and returns a character vector of colour values.
+}
+\description{
+A palette function for selecting colours from the  \emph{NSW Government} palette. \code{nswgov_pal()} returns a function that generates the requested number of colours.
+}
+\section{Automatic tonal-row selection}{
+
+If \code{tonal_rows = NULL}, the palette automatically selects tonal rows according to the number of colours required.
+This is intended to provide a suitable default while allowing tonal-row selection to be overridden explicitly when required.
+}
+
+\section{Palette selection}{
+
+Colours can be selected by specifying \code{colour_cols} and \code{tonal_rows}.
+Alternatively, \code{colours} can be used to supply colour values directly,
+overriding colour-column and tonal-row selection.
+
+If no colour selection is supplied, palette defaults set by \code{set_defaults_nsw()} are used where available.
+}
+
 \section{Illustration}{
 
 \if{html}{\figure{nswgov_palette.png}{options: width=750 alt="NSW Government palette"}}
 }
 
 \examples{
+# E.g. Six colours using the default palette
 nswgov_pal()(6)
 
-library("scales")
-show_col(nswgov_pal()(6))
+# Select particular colour columns and tonal rows
+nswgov_pal(
+  colour_cols = c("Blue", "Yellow"),
+  tonal_rows = 1:3
+)(6)
+
+# Visualise the resulting palette
+scales::show_col(
+  nswgov_pal(
+    colour_cols = c("Blue", "Yellow"),
+    tonal_rows = 1:3
+  )(6)
+)
+
 }
 \references{
 Masterbrand quick reference guide: \url{https://www.nsw.gov.au/sites/default/files/2022-01/Quick_Reference_Guide_Masterbrand.pdf}
+}
+\seealso{
+\code{scale_colour_nsw()} and \code{scale_fill_nsw()} for applying the palette to
+ggplot2 scales.
+
+\code{nswgov_palette_df} for the underlying NSW Government palette data.
 }

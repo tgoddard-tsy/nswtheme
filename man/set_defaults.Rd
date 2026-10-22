@@ -3,34 +3,119 @@
 \name{set_defaults}
 \alias{set_defaults}
 \alias{set_defaults_nsw}
-\title{Set NSW Treasury theme and palette as defaults}
+\title{Set NSW Government visual defaults}
 \usage{
 set_defaults_nsw(
-  budget = FALSE,
+  style = NULL,
   textbox = FALSE,
   base_size = NULL,
+  base_line_size = NULL,
   base_family = "Public Sans",
   header_family = "Public Sans SemiBold",
-  base_line_size = base_size/22,
   ink = NULL,
   paper = NULL,
   accent = NULL,
-  ink_geom = teal_02
+  ink_geom = NULL
 )
 }
 \arguments{
-\item{budget}{a logical determining whether to use budget theme settings.}
+\item{style}{Optional character string selecting a preset style.
+Available styles are \code{"Core"}, \code{"Health"}, \code{"Treasury"} and
+\code{"Budget"}. If \code{NULL}, the default NSW Government style is used.
+Style names are not case-sensitive.}
+
+\item{textbox}{Logical. If \code{TRUE}, use ggtext textbox elements for
+supported plot text.}
+
+\item{base_size}{Base font size, in points.}
+
+\item{base_line_size}{Base line width. If \code{NULL}, calculated from
+\code{base_size}.}
+
+\item{base_family}{Font family used for general text.}
+
+\item{header_family}{Font family used for headings and text geoms.}
+
+\item{ink}{Foreground colour used for text, axes and reference lines.}
+
+\item{paper}{Plot background colour.}
+
+\item{accent}{Accent colour used for grid lines and other theme elements.}
+
+\item{ink_geom}{Default colour or fill used for common data geoms.}
 }
 \description{
-Load fonts (including \emph{Public Sans} if installed) and set the default themes and colour scales. Run this function after loading packages.
+Configures the current R session to use NSW Government themes,
+colour palettes, typography and geom defaults for data visualisation.
 }
 \details{
-The function will also attempt to set defaults for optional ggplot extensions such as ggpattern, ggrepel and geomtextpath. 
-If these packages have not been loaded prior to setting defaults, the function won't be able to find the geoms - so it will skip them.
-Therefore, if any of these packages are loaded later in your session, you'll need to set defaults again so the function can access the geoms.
+\code{set_defaults_nsw()} sets the default ggplot2 theme and colour scales,
+updates defaults for commonly used geoms and stats, and configures
+flextable defaults. Preset styles can be used for particular NSW
+Government brands, or individual theme settings can be customised.
 }
-\examples{
-library(nswtrsy)
+\section{Preset styles}{
 
+\code{style} provides predefined palette and theme settings:
+\itemize{
+\item \code{NULL} or \code{"Default"}: standard NSW Government defaults.
+\item \code{"Health"}: NSW Health palette defaults.
+\item \code{"Treasury"}: NSW Treasury palette defaults.
+\item \code{"Budget"}: Budget publication defaults.
+\item \code{"Core"}: NSW Government core colours (Blue 01 and Red 02 only).
+}
+
+Explicit theme arguments can be used to customise the selected preset.
+}
+
+\section{What this function changes}{
+
+Calling \code{set_defaults_nsw()} changes several defaults for the current
+R session:
+\itemize{
+\item the default ggplot2 theme;
+\item discrete and continuous colour and fill scales;
+\item defaults for common ggplot2 geoms and stats;
+\item supported optional ggplot2 extension geoms; and
+\item flextable formatting defaults.
+}
+
+Palette settings used by nswtheme are also stored in the
+\code{nswtheme.defaults} option.
+}
+
+\section{Optional extensions}{
+
+Defaults are applied to supported optional ggplot2 extension geoms when
+those geoms are available. If an extension package is loaded after
+calling \code{set_defaults_nsw()}, call this function again to apply its
+defaults.
+}
+
+\examples{
+library(nswtheme)
+library(ggplot2)
+
+# Standard NSW Government defaults
 set_defaults_nsw()
+
+ggplot(mpg, aes(displ, hwy, colour = class)) +
+  geom_point()
+
+# NSW Treasury preset
+set_defaults_nsw("Treasury")
+
+# Override part of a preset
+set_defaults_nsw(
+  "Treasury",
+  base_size = 10,
+  ink_geom = red_02
+)
+
+}
+\seealso{
+\code{\link[=theme_nsw]{theme_nsw()}},
+\code{\link[=scale_colour_nsw]{scale_colour_nsw()}},
+\code{\link[=scale_fill_nsw]{scale_fill_nsw()}},
+\code{\link[=theme_nsw_flextable]{theme_nsw_flextable()}}
 }

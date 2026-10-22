@@ -4,17 +4,17 @@
 \name{nswtheme-package}
 \alias{nswtheme}
 \alias{nswtheme-package}
-\title{nswtheme: Apply the NSW Government brand to data viz objects}
+\title{nswtheme: Apply the NSW Government Brand to Data Visualisations}
 \description{
-A set of scales (colour/fill, x, y) and themes for chart ('ggplot2') and table ('flextable') objects consistent with the 'NSW Government brand guidelines'
+Themes, colour palettes, scales and other tools for creating data visualisations and tables consistent with NSW Government brand guidelines. Provides themes and scales for 'ggplot2', formatting for 'flextable', and helpers for common data visualisation tasks.
 }
 \section{How to use with \code{ggplot2}}{
 
 \itemize{
- \item{Run \code{\link{set_defaults_nsw}()} to update defaults and load fonts}
- \item{Once you've created a chart with \code{ggplot2}, you can edit the theme elements to suit your needs with \code{\link[ggplot2]{theme}()}. For example, \code{legend.position}.}
- \item{You can change the colour scheme by using \code{\link{scale_colour}_nsw()} or similar, depending on the mapping/aesthetics used.}
- \item{Save a plot using \code{\link{ggsave_nsw}()}.}
+\item{Run \code{\link{set_defaults_nsw}()} to update defaults and load fonts}
+\item{Once you've created a chart with \code{ggplot2}, you can edit the theme elements to suit your needs with \code{\link[ggplot2]{theme}()}. For example, \code{legend.position}.}
+\item{You can change the colour scheme by using \code{\link{scale_colour}_nsw()} or similar, depending on the mapping/aesthetics used.}
+\item{Save a plot using \code{\link{ggsave_nsw}()}.}
 }
 }
 
@@ -28,6 +28,11 @@ Masterbrand quick reference guide: \url{https://www.nsw.gov.au/sites/default/fil
 }
 \author{
 \strong{Maintainer}: Tyson Goddard \email{tyson.goddard@treasury.nsw.gov.au}
+
+Authors:
+\itemize{
+  \item Tyson Goddard \email{tyson.goddard@treasury.nsw.gov.au}
+}
 
 }
 \keyword{internal}

@@ -52,7 +52,7 @@ NULL
 "lockdowns_wa"
 
 
-#' NSW Government colour palette
+#' NSW Government colour palette data frame
 #'
 #' A dataset containing the NSW Government palette.
 #' @format A data frame with 6 variables:
@@ -64,21 +64,27 @@ NULL
 #'   \item{corporate}{\code{TRUE} if colour is for corporate use}
 #'   \item{core}{\code{TRUE} if colour is a core colour}
 #'   }
+#' @section Illustration:
+#' \if{html}{\figure{nswgov_palette.png}{options: width=750 alt="NSW Government palette"}}
+#' @references Masterbrand quick reference guide: \url{https://www.nsw.gov.au/sites/default/files/2022-01/Quick_Reference_Guide_Masterbrand.pdf}
 #' @seealso 
-#' \code{\link{nswgov_palette_simple}} is a \emph{named vector} equivalent
+#' \code{\link{nswgov_palette}} is a \emph{named vector} equivalent, which does not include additional columns.
+#' @name palette_df
+NULL
+
+#' @rdname palette_df
+"nswgov_palette_df"
+
+#' NSW Government colour palette
+#' 
+#' NSW Government palette in the form of a named vector.
+#' @section Illustration:
+#' \if{html}{\figure{nswgov_palette.png}{options: width=750 alt="NSW Government palette"}}
+#' @references Masterbrand quick reference guide: \url{https://www.nsw.gov.au/sites/default/files/2022-01/Quick_Reference_Guide_Masterbrand.pdf}
+#' @seealso 
+#' \code{\link{nswgov_palette_df}} is a \emph{dataframe} equivalent with additional information.
 #' @name palette
 NULL
 
 #' @rdname palette
 "nswgov_palette"
-
-#' NSW Government colour palette (simple)
-#' 
-#' NSW Government palette in the form of a named vector.
-#' @seealso 
-#' \code{\link{nswgov_palette}} is a \emph{dataframe} equivalent with additional information
-#' @name palette_simple
-NULL
-
-#' @rdname palette_simple
-"nswgov_palette_simple"

@@ -3,7 +3,7 @@
 \name{theme_nsw}
 \alias{theme_nsw}
 \alias{theme_nsw_map}
-\title{ggplot theme based on \strong{NSW Government} brand guidelines}
+\title{NSW Government ggplot theme}
 \usage{
 theme_nsw(
   budget = FALSE,
@@ -38,35 +38,67 @@ theme_nsw_map(
 )
 }
 \arguments{
-\item{legend.position}{The position of legends ("none", "left", "right", "bottom" or "top" for positioning legend outside plot) OR (two-element numeric vector for positioning legend inside plot). Defaults to \code{c(0.02,0.98)} (near the top-left corner of the plot area).}
+\item{budget}{Logical. If \code{TRUE}, use the Budget variant of the theme.}
 
-\item{legend.justification}{anchor point for positioning legend inside plot ("center" or two-element numeric vector) or the justification according to the plot area when positioned outside the plot. Defaults to \code{c(0,1)} (anchored to top-left corner of the legend box).}
+\item{textbox}{Logical. If \code{TRUE}, use ggtext textbox elements for the
+plot title and caption.}
 
-\item{...}{Arguments passed on to \code{\link[ggplot2]{theme}()}.}
+\item{base_size}{Base font size, in points.}
 
-\item{water_background}{For maps, logical determining whether to use a blue \code{panel.background} to represent the presence of the oceans.}
+\item{base_line_size}{Base line width.}
+
+\item{base_family}{Font family used for general text.}
+
+\item{header_family}{Font family used for headings.}
+
+\item{ink}{Foreground colour used for text, axes and other theme elements.}
+
+\item{paper}{Background colour used for the plot.}
+
+\item{accent}{Accent colour used for grid lines and other theme elements.}
+
+\item{legend.position}{Position of the legend. Defaults to \code{"inside"} for
+\code{theme_nsw()}.}
+
+\item{legend.position.inside}{Two-element numeric vector specifying the
+position of an inside legend. Defaults to \code{c(0.02, 0.98)}.}
+
+\item{legend.justification}{Justification of the legend. Defaults to
+\code{c(0, 1)} for \code{theme_nsw()}.}
+
+\item{...}{Additional arguments passed to \code{\link[ggplot2:theme]{ggplot2::theme()}}.}
+
+\item{water_background}{Logical. For maps, whether to use a blue panel
+background to represent water.}
 }
 \value{
-An object of class \code{\link[ggplot2]{theme}()}
+A \code{\link[ggplot2:theme]{ggplot2::theme()}} object.
 }
 \description{
-A theme object for the style of \emph{New South Wales Government}.
+A ggplot2 theme based on NSW Government brand guidelines.
+}
+\details{
+\code{theme_nsw()} provides the standard theme. \code{theme_nsw_map()} adapts the
+theme for maps by removing axes and grid lines and optionally displaying
+a water background.
 }
 \examples{
-library("ggplot2")
+library(ggplot2)
 
-p <- ggplot(data = filter(economics_long, variable \%in\% c('uempmed', 'psavert'))) + 
-  geom_line(mapping = aes(x = date, y = value, colour = variable)) +
+ggplot(mpg, aes(displ, hwy, colour = class)) +
+  geom_point() +
   theme_nsw() +
   scale_colour_nsw()
 
-# Facets:
-p <- ggplot(data = mpg) +
-  geom_jitter(mapping = aes(x = displ, y = hwy, colour = class)) +
-  facet_wrap(~ manufacturer, nrow = 3)
+# Facets
+ggplot(mpg, aes(displ, hwy, colour = class)) +
+  geom_jitter() +
+  facet_wrap(~manufacturer, nrow = 3) +
   theme_nsw() +
   scale_colour_nsw()
+
 }
 \references{
+NSW Government masterbrand guidelines:
 \url{https://www.nsw.gov.au/sites/default/files/_static/nsw-gov-masterbrand-guidelines.pdf}
 }

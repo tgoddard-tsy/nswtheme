@@ -10,16 +10,16 @@ inflation_target_lines(
   min = 2,
   max = 3,
   official = FALSE,
-  start.date = NULL,
+  start_date = NULL,
   linetype = "dashed",
   colour = grey_01,
-  label = "RBA Inflation Target",
-  label.x = "2017-08-01",
-  label.y = 3,
-  label.size = 7,
-  label.colour = NULL,
+  label = NULL,
+  label_x = "2017-08-01",
+  label_y = 3,
+  label_size = 7,
+  label_colour = NULL,
   facet = NULL,
-  facet.name = "facet",
+  facet_name = "category",
   ...
 )
 
@@ -27,16 +27,16 @@ inflation_target_shading(
   min = 2,
   max = 3,
   official = FALSE,
-  start.date = NULL,
+  start_date = NULL,
   fill = grey_01,
   alpha = 0.1,
-  label = "RBA Inflation Target",
-  label.x = "2017-08-01",
-  label.y = 3,
-  label.size = 7,
-  label.colour = NULL,
+  label = NULL,
+  label_x = "2017-08-01",
+  label_y = 3,
+  label_size = 7,
+  label_colour = NULL,
   facet = NULL,
-  facet.name = "facet",
+  facet_name = "category",
   ...
 )
 }
@@ -45,21 +45,21 @@ inflation_target_shading(
 
 \item{official}{A logical determining whether to use the start date of only official, mandated targeting. Inflation targeting was adopted by the RBA in 1993, but was not mandated as an official target until 1996.}
 
-\item{start.date}{A date, which if specified will override the default start date of inflation targeting. If used, \code{official} will be ignored.}
+\item{start_date}{A date, which if specified will override the default start date of inflation targeting. If used, \code{official} will be ignored.}
 
 \item{colour, fill, alpha}{Colour/fill of lines/shading. Defaults to \code{grey_01}.}
 
-\item{label}{A character string to annotate the target with. Defaults to "RBA Inflation Target".}
+\item{label}{A character string to annotate the target e.g. "Inflation Target". Defaults to NULL (no label).}
 
-\item{label.x, label.y}{x- and y- coordinates for where to position the \code{label}.}
+\item{label_x, label_y}{x- and y- coordinates for where to position the \code{label}.}
 
-\item{label.size}{Size of \code{label} text (in pts). Defaults to 7, which is slightly smaller than other text (9).}
+\item{label_size}{Size of \code{label} text (in pts). Defaults to 7, which is slightly smaller than other text (9).}
 
-\item{label.colour}{Colour of \code{label} text. Defaults to be the same as \code{colour} or \code{fill}.}
+\item{label_colour}{Colour of \code{label} text. Defaults to be the same as \code{colour} or \code{fill}.}
 
 \item{facet}{If used in a faceted ggplot, specify the facet(s) you want the inflation target to appear on.}
 
-\item{facet.name}{The variable name used in your \code{facet_wrap()}. Defaults to "facet", i.e. \code{facet_wrap(~facet)}.}
+\item{facet_name}{The variable name used in your \code{facet_wrap()}. Defaults to "category", i.e. \code{facet_wrap(~category)}.}
 }
 \description{
 Highlight the RBA inflation target with either shading or horizontal lines.

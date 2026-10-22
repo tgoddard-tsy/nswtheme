@@ -2,13 +2,18 @@
 % Please edit documentation in R/theme.R
 \name{adjust_margin}
 \alias{adjust_margin}
-\title{Adjust the margin around plot}
+\title{Adjust the plot margin}
 \usage{
 adjust_margin(right = 0, left = 0, top = 0, bottom = 0)
 }
 \arguments{
-\item{right, left, top, bottom}{Number of pts to increase margin by.}
+\item{right, left, top, bottom}{Amount, in points, to add to each plot
+margin. Defaults to \code{0}.}
+}
+\value{
+A \code{\link[ggplot2:theme]{ggplot2::theme()}} object that modifies the plot margin.
 }
 \description{
-Increase \code{right} margin if you need more space for your x-axis label.
+Increase one or more margins around a plot. For example, increase \code{right}
+when additional space is needed for an x-axis label.
 }

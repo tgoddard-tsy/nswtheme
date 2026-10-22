@@ -2,7 +2,7 @@
 % Please edit documentation in R/recession_shading.R
 \name{lockdown_shading}
 \alias{lockdown_shading}
-\title{Add a layer of COVID-19 lockdown shading}
+\title{Add COVID-19 lockdown shading to a plot}
 \usage{
 lockdown_shading(
   freq = "d",
@@ -16,20 +16,61 @@ lockdown_shading(
 )
 }
 \arguments{
-\item{freq}{Frequency at which to show lockdown data. Defaults to "d". Options:\itemize{
-\item{Daily [default]: \code{freq = "d"}}
-\item{Weekly: \code{freq = "w"}}
-\item{Monthly: \code{freq = "m"}}
-\item{Quarterly: \code{freq = "q"}}
-\item{Yearly: \code{freq = "y"}}
-\item{Yearly (Financial): \code{freq = "fy"}}
+\item{freq}{Frequency at which to display lockdown periods. Defaults to
+\code{"d"}. Supported values include:
+\itemize{
+\item \code{"d"} for daily;
+\item \code{"w"} for weekly;
+\item \code{"m"} for monthly;
+\item \code{"q"} for quarterly;
+\item \code{"y"} for calendar year; and
+\item \code{"fy"} for financial year.
 }}
 
-\item{...}{Arguments passed to \code{geom_rect()}.}
+\item{data}{Data frame containing lockdown periods. Defaults to
+\link{lockdowns_nsw}.}
+
+\item{mapping}{Aesthetic mapping passed to \code{\link[ggplot2:geom_rect]{ggplot2::geom_rect()}}. By
+default, \code{xmin = start}, \code{xmax = end}, \code{ymin = -Inf} and
+\code{ymax = Inf}.}
+
+\item{fill}{Fill colour for the shaded regions. Defaults to \code{grey_01}.}
+
+\item{alpha}{Transparency of the shaded regions. Defaults to \code{0.1}.}
+
+\item{show.legend}{Logical indicating whether this layer should be included
+in plot legends. Defaults to \code{FALSE}.}
+
+\item{...}{Other arguments passed to \code{\link[ggplot2:geom_rect]{ggplot2::geom_rect()}}.}
+}
+\value{
+A ggplot2 layer that can be added to a plot.
 }
 \description{
-This is a wrapper for \code{\link[ggplot2]{geom_rect}()}, with convenient defaults for COVID-19 lockdown shading. Defaults to using the NSW lockdown dataset (\code{\link{lockdowns_nsw}}).
+Add shaded regions representing periods of COVID-19 lockdown.
+}
+\details{
+\code{lockdown_shading()} is a wrapper around \code{\link[ggplot2:geom_rect]{ggplot2::geom_rect()}} with
+defaults for plotting lockdown periods. By default, it uses
+\link{lockdowns_nsw}, with \code{start} and \code{end} defining each shaded period.
+
+The \code{freq} argument adjusts lockdown start and end dates to the boundaries
+of the requested period before the shading is added.
+}
+\examples{
+library(ggplot2)
+
+ggplot(economics, aes(date, unemploy)) +
+  lockdown_shading() +
+  geom_line()
+
+# Use Victorian lockdown periods
+ggplot(economics, aes(date, unemploy)) +
+  lockdown_shading(data = lockdowns_vic) +
+  geom_line()
+
 }
 \seealso{
-\code{\link{recession_shading}()}
+\code{\link[=recession_shading]{recession_shading()}}, \link{lockdowns_nsw}, \link{lockdowns_vic},
+\link{lockdowns_qld}, \link{lockdowns_wa}
 }

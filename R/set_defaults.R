@@ -1,42 +1,198 @@
-#' Set NSW Treasury theme and palette as defaults
+#' Set NSW Government visual defaults
 #'
-#' Load fonts (including \emph{Public Sans} if installed) and set the default themes and colour scales. Run this function after loading packages. 
-#' 
-#' The function will also attempt to set defaults for optional ggplot extensions such as ggpattern, ggrepel and geomtextpath. 
-#' If these packages have not been loaded prior to setting defaults, the function won't be able to find the geoms - so it will skip them.
-#' Therefore, if any of these packages are loaded later in your session, you'll need to set defaults again so the function can access the geoms.
-#' @param budget a logical determining whether to use budget theme settings.
-#' @examples 
-#' library(nswtrsy)
-#' 
+#' Configures the current R session to use NSW Government themes,
+#' colour palettes, typography and geom defaults for data visualisation.
+#'
+#' `set_defaults_nsw()` sets the default ggplot2 theme and colour scales,
+#' updates defaults for commonly used geoms and stats, and configures
+#' flextable defaults. Preset styles can be used for particular NSW
+#' Government brands, or individual theme settings can be customised.
+#'
+#' @param style Optional character string selecting a preset style.
+#'   Available styles are `"Core"`, `"Health"`, `"Treasury"` and
+#'   `"Budget"`. If `NULL`, the default NSW Government style is used.
+#'   Style names are not case-sensitive.
+#' @param textbox Logical. If `TRUE`, use ggtext textbox elements for
+#'   supported plot text.
+#' @param base_size Base font size, in points.
+#' @param base_line_size Base line width. If `NULL`, calculated from
+#'   `base_size`.
+#' @param base_family Font family used for general text.
+#' @param header_family Font family used for headings and text geoms.
+#' @param ink Foreground colour used for text, axes and reference lines.
+#' @param ink_geom Default colour or fill used for common data geoms.
+#' @param paper Plot background colour.
+#' @param accent Accent colour used for grid lines and other theme elements.
+#'
+#' @section Preset styles:
+#' `style` provides predefined palette and theme settings:
+#'
+#' * `NULL` or `"Default"`: standard NSW Government defaults.
+#' * `"Health"`: NSW Health palette defaults.
+#' * `"Treasury"`: NSW Treasury palette defaults.
+#' * `"Budget"`: Budget publication defaults.
+#' * `"Core"`: NSW Government core colours (Blue 01 and Red 02 only).
+#'
+#' Explicit theme arguments can be used to customise the selected preset.
+#'
+#' @section What this function changes:
+#' Calling `set_defaults_nsw()` changes several defaults for the current
+#' R session:
+#'
+#' * the default ggplot2 theme;
+#' * discrete and continuous colour and fill scales;
+#' * defaults for common ggplot2 geoms and stats;
+#' * supported optional ggplot2 extension geoms; and
+#' * flextable formatting defaults.
+#'
+#' Palette settings used by nswtheme are also stored in the
+#' `nswtheme.defaults` option.
+#'
+#' @section Optional extensions:
+#' Defaults are applied to supported optional ggplot2 extension geoms when
+#' those geoms are available. If an extension package is loaded after
+#' calling `set_defaults_nsw()`, call this function again to apply its
+#' defaults.
+#'
+#' @examples
+#' library(nswtheme)
+#' library(ggplot2)
+#'
+#' # Standard NSW Government defaults
 #' set_defaults_nsw()
+#'
+#' ggplot(mpg, aes(displ, hwy, colour = class)) +
+#'   geom_point()
+#'
+#' # NSW Treasury preset
+#' set_defaults_nsw("Treasury")
+#'
+#' # Override part of a preset
+#' set_defaults_nsw(
+#'   "Treasury",
+#'   base_size = 10,
+#'   ink_geom = red_02
+#' )
+#'
+#' @seealso
+#' [theme_nsw()],
+#' [scale_colour_nsw()],
+#' [scale_fill_nsw()],
+#' [theme_nsw_flextable()]
 #' @name set_defaults
 NULL
 
 #' @rdname set_defaults
 #' @export
-set_defaults_nsw <- function(budget = FALSE, textbox = FALSE, 
-                             base_size = NULL, base_family = "Public Sans", header_family = "Public Sans SemiBold", base_line_size = base_size/22, 
-                             ink = NULL, paper = NULL, accent = NULL,
-                             ink_geom = teal_02){
+set_defaults_nsw <- function(
+    style = NULL,
+    textbox = FALSE,
+    base_size = NULL,
+    base_line_size = NULL,
+    base_family = "Public Sans",
+    header_family = "Public Sans SemiBold",
+    ink = NULL,
+    paper = NULL,
+    accent = NULL,
+    ink_geom = NULL
+) {
+  
+  # Standardise style input
+  if (is.null(style)) style <- "DEFAULT"
+  style <- toupper(style)
+  
+  # General NSW Government defaults
+  colours <- NULL
+  colour_cols <- c(
+    "Blue", "Orange", "Grey", "Red", "Green", "Teal",
+    "Purple", "Fuchsia", "Yellow", "Brown"
+  )
+  ramp_colours <- c(blue_03, blue_01)
+  gradient_colours <- c(blue_03, blue_01)
+  budget <- FALSE
+  
+  # Style-specific defaults
+  if (style == "CORE") {
+    
+    colours <- c(blue_01, red_02)
+    colour_cols <- NULL
+    
+    if (is.null(ink_geom)) ink_geom <- red_02
+    
+  } else if (style %in% c("HEALTH", "MOH")) {
+    
+    colour_cols <- c(
+      "Blue", "Red", "Grey", "Purple", "Orange", "Green", "Teal",
+      "Yellow", "Fuchsia", "Brown"
+    )
+    ramp_colours <- c(purple_03, purple_01)
+    gradient_colours <- c(purple_03, purple_01)
+    
+    if (is.null(ink_geom)) ink_geom <- purple_02
+    
+  } else if (style %in% c("TREASURY", "TSY", "TRSY")) {
+    
+    colour_cols <- c(
+      "Teal", "Orange", "Green", "Grey", "Blue",
+      "Yellow", "Purple", "Fuchsia", "Brown", "Red"
+    )
+    ramp_colours <- c(green_03, teal_01)
+    gradient_colours <- c(green_03, teal_01)
+    
+    if (is.null(ink_geom)) ink_geom <- teal_02
+    
+  } else if (style == "BUDGET") {
+    
+    ramp_colours <- c(grey_03, grey_01)
+    gradient_colours <- c(grey_03, grey_01)
+    
+    if (is.null(base_size)) base_size <- 7
+    if (is.null(ink))       ink       <- "black"
+    if (is.null(ink_geom))  ink_geom  <- grey_02
+    if (is.null(paper))     paper     <- "transparent"
+    if (is.null(accent))    accent    <- "#DFDCDA"
+    
+    budget <- TRUE
+    
+  } else if (style != "DEFAULT") {
+    
+    stop(
+      "Unknown style: ", style,
+      ". Valid styles are 'Default', 'Core', 'Health', 'Treasury', and 'Budget'."
+    )
+  }
+  
+  # General theme defaults
+  if (is.null(base_size)) base_size <- 9
+  if (is.null(ink))       ink       <- grey_01
+  if (is.null(ink_geom))  ink_geom  <- blue_02
+  if (is.null(paper))     paper     <- "white"
+  if (is.null(accent))    accent    <- grey_04
+  
+  if (is.null(base_line_size)) base_line_size <- base_size / 22
+  
+  # Store nswtheme palette defaults
+  options(
+    nswtheme.defaults = list(
+      colours = colours,
+      colour_cols = colour_cols,
+      ramp_colours = ramp_colours,
+      gradient_colours = gradient_colours
+    )
+  )
+  
   # Note: Use try() functions for elements relating to packages that the user may not have loaded.
   # Load fonts...
   try(extrafont::loadfonts(device = "win", quiet = TRUE))
   
-  if(is.null(extrafont::fonttable()$FamilyName)){
-    if(packageVersion("Rttf2pt1") != "1.3.8"){
-      remotes::install_version("Rttf2pt1", version = "1.3.8")
-    }
-    extrafont::font_import(paths = NULL, prompt = FALSE, pattern = "PublicSans")
-    try(extrafont::loadfonts(device = "win", quiet = TRUE))
-  }
+  # if(is.null(extrafont::fonttable()$FamilyName)){
+  #   if(packageVersion("Rttf2pt1") != "1.3.8"){
+  #     remotes::install_version("Rttf2pt1", version = "1.3.8")
+  #   }
+  #   extrafont::font_import(paths = NULL, prompt = FALSE, pattern = "PublicSans")
+  #   try(extrafont::loadfonts(device = "win", quiet = TRUE))
+  # }
   
-  # Default theme parameters unless overridden
-  if (is.null(base_size)) base_size <- if (budget) 7 else 9
-  if (is.null(ink))       ink       <- if (budget) "black" else grey_01
-  if (is.null(paper))     paper     <- if (budget) "transparent" else "white"
-  if (is.null(accent))    accent    <- if (budget) "#DFDCDA" else grey_04
-
   # Update geom defaults...
   # Text geoms
   ggplot2::update_geom_defaults("text", list(colour = ink, family = header_family, fontface = 'plain', size = base_size / .pt, lineheight = 0.8))
@@ -92,7 +248,7 @@ set_defaults_nsw <- function(budget = FALSE, textbox = FALSE,
   ggplot2::update_stat_defaults("density", list(fill = ink_geom))
   ggplot2::update_stat_defaults("ydensity", list(fill = ink_geom))
   
-  # NSWGOV defaults
+  # Update palette and themes
     # Colour palettes
     options(ggplot2.discrete.colour = scale_colour_nsw)
     options(ggplot2.discrete.fill = scale_fill_nsw)

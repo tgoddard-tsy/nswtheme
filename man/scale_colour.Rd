@@ -6,195 +6,128 @@
 \alias{scale_fill_nsw}
 \alias{scale_colour_nsw_ramp}
 \alias{scale_fill_nsw_ramp}
-\alias{scale_colour_tsy}
-\alias{scale_fill_tsy}
-\alias{scale_colour_tsy_ramp}
-\alias{scale_fill_tsy_ramp}
 \alias{scale_colour_nsw_gradient}
-\alias{scale_colour_nsw_c}
 \alias{scale_fill_nsw_gradient}
-\alias{scale_fill_nsw_c}
-\alias{scale_colour_tsy_gradient}
-\alias{scale_colour_tsy_c}
-\alias{scale_fill_tsy_gradient}
-\alias{scale_fill_tsy_c}
 \alias{scale_pattern_fill_nsw}
-\alias{scale_pattern_fill_tsy}
 \title{NSW Government colour scales}
 \usage{
 scale_colour_nsw(
-  colour_cols = c("Blue", "Grey", "Red", "Green", "Teal", "Purple", "Fuchsia", "Orange",
-    "Yellow", "Brown"),
+  colour_cols = NULL,
   tonal_rows = NULL,
-  order = c("colour_col", "tonal_row"),
-  values = NULL,
+  hierarchy = c("colour_col", "tonal_row"),
+  colours = NULL,
   reverse = FALSE,
   ...
 )
 
 scale_fill_nsw(
-  colour_cols = c("Blue", "Grey", "Red", "Green", "Teal", "Purple", "Fuchsia", "Orange",
-    "Yellow", "Brown"),
+  colour_cols = NULL,
   tonal_rows = NULL,
-  order = c("colour_col", "tonal_row"),
-  values = NULL,
+  hierarchy = c("colour_col", "tonal_row"),
+  colours = NULL,
   reverse = FALSE,
   ...
 )
 
 scale_colour_nsw_ramp(
-  colours = c(grey_03, blue_02, blue_01),
+  colours = NULL,
   na.colour = grey_04,
   reverse = FALSE,
   ...
 )
 
-scale_fill_nsw_ramp(
-  colours = c(grey_03, blue_02, blue_01),
-  na.colour = grey_04,
-  reverse = FALSE,
-  ...
-)
-
-scale_colour_tsy(
-  colour_cols = c("Teal", "Grey", "Orange", "Green", "Blue", "Yellow", "Purple",
-    "Fuchsia", "Brown", "Red"),
-  tonal_rows = NULL,
-  order = c("colour_col", "tonal_row"),
-  values = NULL,
-  reverse = FALSE,
-  ...
-)
-
-scale_fill_tsy(
-  colour_cols = c("Teal", "Grey", "Orange", "Green", "Blue", "Yellow", "Purple",
-    "Fuchsia", "Brown", "Red"),
-  tonal_rows = NULL,
-  order = c("colour_col", "tonal_row"),
-  values = NULL,
-  reverse = FALSE,
-  ...
-)
-
-scale_colour_tsy_ramp(
-  colours = c(green_03, teal_01),
-  na.colour = grey_04,
-  reverse = FALSE,
-  ...
-)
-
-scale_fill_tsy_ramp(
-  colours = c(green_03, teal_01),
-  na.colour = grey_04,
-  reverse = FALSE,
-  ...
-)
+scale_fill_nsw_ramp(colours = NULL, na.colour = grey_04, reverse = FALSE, ...)
 
 scale_colour_nsw_gradient(
-  colours = c(blue_03, blue_01),
+  colours = NULL,
   na.value = grey_04,
   binned = FALSE,
   reverse = FALSE,
   ...
 )
-
-scale_colour_nsw_c(...)
 
 scale_fill_nsw_gradient(
-  colours = c(blue_03, blue_01),
+  colours = NULL,
   na.value = grey_04,
   binned = FALSE,
   reverse = FALSE,
   ...
 )
-
-scale_fill_nsw_c(...)
-
-scale_colour_tsy_gradient(
-  colours = c(green_03, teal_01),
-  na.value = grey_04,
-  binned = FALSE,
-  reverse = FALSE,
-  ...
-)
-
-scale_colour_tsy_c(...)
-
-scale_fill_tsy_gradient(
-  colours = c(green_03, teal_01),
-  na.value = grey_04,
-  binned = FALSE,
-  reverse = FALSE,
-  ...
-)
-
-scale_fill_tsy_c(...)
 
 scale_pattern_fill_nsw(
-  colour_cols = c("Blue", "Grey", "Red", "Green", "Teal", "Purple", "Fuchsia", "Orange",
-    "Yellow", "Brown"),
+  colour_cols = NULL,
   tonal_rows = NULL,
-  order = c("colour_col", "tonal_row"),
-  values = NULL,
+  hierarchy = c("colour_col", "tonal_row"),
+  colours = NULL,
   reverse = FALSE,
-  ...
-)
-
-scale_pattern_fill_tsy(
-  colour_cols = c("Teal", "Grey", "Orange", "Green", "Blue", "Yellow", "Purple",
-    "Fuchsia", "Brown", "Red"),
-  tonal_rows = NULL,
-  order = c("colour_col", "tonal_row"),
-  values = NULL,
-  reverse = FALSE,
+  patterns = NULL,
   ...
 )
 }
 \arguments{
-\item{colour_cols}{"Colour columns" to use from the palette.}
+\item{colour_cols}{Character vector specifying the "colour columns" to use from the palette. For example, \code{c("Blue", "Green", "Red")}.}
 
-\item{tonal_rows}{"Tonal rows" to use from the palette. If \code{NULL}: will default to \code{1:3}, unless exactly 1,2 or 4 colours are needed, in which case \code{2:3} will be used.}
+\item{tonal_rows}{Numeric or character vector specifying the "tonal rows" to use from the palette. Values must correspond to tonal rows 1 to 4;
+for example, \code{1:3} or \code{c("01", "02", "03")}. If \code{NULL}, tonal rows are selected automatically based on the number of values needed.}
 
-\item{order}{Hierarchy in which to sort/cycle through colour library. Defaults to \code{c("colour_col", "tonal_row")} which will sort by \code{colour_col} first and then \code{tonal_row} - e.g. Blue 01, ..., Blue 03, Grey 01, ... Grey 03, etc.}
+\item{hierarchy}{Character vector specifying how to sort/cycle through the colour palette. Defaults to \code{c("colour_col", "tonal_row")} which will sort by \code{colour_col} first and then \code{tonal_row} - e.g. Blue 01, ..., Blue 03, Grey 01, ... Grey 03, etc.}
 
-\item{values}{Colour values (e.g. \code{grey_01} or \code{"#22272b"}) to select specific colours from the palette. If used, this will override \code{colour_cols}, \code{tonal_rows} and \code{order}.}
+\item{colours}{Character vector specifying the colour values to use, e.g. c(green_03, red_02, teal_01). If used, this will override the \code{colour_cols} and \code{tonal_rows} algorithm.}
 
-\item{reverse}{Logical to reverse order of existing colours in the palette. \code{FALSE} by default.}
+\item{reverse}{Logical. If \code{TRUE}, reverses the colours in the selected palette. \code{FALSE} by default.}
 
-\item{...}{Arguments passed on to the used scale function.}
+\item{...}{Arguments passed on to \code{\link[ggplot2]{discrete_scale}()}, \code{\link[ggplot2]{scale_colour_gradientn}()} or \code{\link[ggplot2]{scale_fill_gradientn}()}.}
 
-\item{colours}{For continuous scales, colour values to use.}
-
-\item{binned}{For continuous scales, logical deciding whether to bin continuous data into discrete groups. \code{FALSE} by default.}
+\item{binned}{Logical. For continuous scales (gradient), deciding whether to bin continuous data into groups. \code{FALSE} by default.}
 }
 \description{
-Colour scales using values from the \emph{NSW Government} palette. Use \code{scale_colour} prefix for colour aesthetics and \code{scale_fill} prefix for fill aesthetics.
+Colour scales using values from the \emph{NSW Government} palette.
+The \emph{NSW Government} palette is organised into colour columns and tonal rows.
+colour_cols selects the colour families, while tonal_rows selects the shades within those families.
 }
+\section{Types of colour scales}{
+
+There are three types of colour and fill scales provided:
+\itemize{
+\item{\code{scale_colour_nsw()} and \code{scale_fill_nsw()} use discrete colours from the NSW Government palette.}
+\item{\code{scale_colour_nsw_ramp()} and \code{scale_fill_nsw_ramp()} interpolate between colours to create a gradient-like colour palette that can be applied to discrete data.}
+\item{\code{scale_colour_nsw_gradient()} and \code{scale_fill_nsw_gradient()} provide continuous colour scales.}
+}
+}
+
 \section{Illustration}{
 
 \if{html}{\figure{nswgov_palette.png}{options: width=750 alt="NSW Government palette"}}
 }
 
 \examples{
-# Use scale_*_nsw with discrete data:
-# scale_colour_nsw()
-# scale_fill_nsw()
+library(ggplot2)
 
-# Use scale_*_nsw_gradient with continuous data:
-# scale_colour_nsw_gradient()
-# scale_fill_nsw_gradient()
+p <- ggplot(mpg, aes(displ, hwy, colour = drv)) +
+  geom_point()
 
-# For NSW Government defaults use:
-# scale_*_nsw()
+# Automatic tonal-row selection
+p + scale_colour_nsw()
 
-# For ONE Treasury defaults use:
-# scale_*_tsy()
+# Use tonal rows 01 to 03
+p + scale_colour_nsw(tonal_rows = 1:3)
+
+# Select colour columns and tonal rows
+p + scale_colour_nsw(
+  colour_cols = c("Blue", "Purple"),
+  tonal_rows = 1:3
+)
+
+# Cycle through colour columns before moving to the next tonal row
+p + scale_colour_nsw(
+  colour_cols = c("Blue", "Purple"),
+  tonal_rows = 1:3,
+  hierarchy = c("tonal_row", "colour_col")
+)
 }
 \references{
 Masterbrand quick reference guide: \url{https://www.nsw.gov.au/sites/default/files/2022-01/Quick_Reference_Guide_Masterbrand.pdf}
 }
 \seealso{
-Discrete scales use the \code{\link[ggplot2]{discrete_scale}()} scale function. The main palette function uses is \code{\link{nswgov_pal}()}.
-
-Continuous scales use \code{\link[ggplot2]{scale_colour_gradientn}()} and \code{\link[ggplot2]{scale_fill_gradientn}()}
+\code{nswgov_pal()} for details of palette selection and automatic tonal-row selection.
 }

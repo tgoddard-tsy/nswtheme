@@ -6,25 +6,23 @@
 \alias{nswgov_palette}
 \title{NSW Government colour palette}
 \format{
-A data frame with 6 variables:
-\describe{
-  \item{name}{Colour name}
-  \item{value}{HEX value}
-  \item{colour_col}{Colour column of the palette}
-  \item{tonal_row}{Tonal row of the palette - one of "01", "02", "03", or "04"}
-  \item{corporate}{\code{TRUE} if colour is for corporate use}
-  \item{core}{\code{TRUE} if colour is a core colour}
-  }
-
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 40 rows and 6 columns.
+An object of class \code{character} of length 40.
 }
 \usage{
 nswgov_palette
 }
 \description{
-A dataset containing the NSW Government palette.
+NSW Government palette in the form of a named vector.
+}
+\section{Illustration}{
+
+\if{html}{\figure{nswgov_palette.png}{options: width=750 alt="NSW Government palette"}}
+}
+
+\references{
+Masterbrand quick reference guide: \url{https://www.nsw.gov.au/sites/default/files/2022-01/Quick_Reference_Guide_Masterbrand.pdf}
 }
 \seealso{
-\code{\link{nswgov_palette_simple}} is a \emph{named vector} equivalent
+\code{\link{nswgov_palette_df}} is a \emph{dataframe} equivalent with additional information.
 }
 \keyword{datasets}

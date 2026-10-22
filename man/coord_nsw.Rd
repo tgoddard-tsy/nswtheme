@@ -4,28 +4,48 @@
 \alias{coord_nsw}
 \alias{coord_flip_nsw}
 \alias{coord_polar_nsw}
-\title{Coordinate transformations with corresponding changes to the ggplot theme}
+\title{Coordinate systems with NSW Government theme adjustments}
 \usage{
 coord_flip_nsw(...)
 
 coord_polar_nsw(...)
 }
 \arguments{
-\item{...}{Optional arguments passed on to \code{\link[ggplot2]{coord_flip}()} or \code{\link[ggplot2]{coord_polar}()}.}
+\item{...}{Arguments passed to \code{\link[ggplot2:coord_flip]{ggplot2::coord_flip()}} or
+\code{\link[ggplot2:coord_polar]{ggplot2::coord_polar()}}.}
+}
+\value{
+A list containing a ggplot2 coordinate system and theme
+adjustments that can be added to a plot.
 }
 \description{
-Wrapper functions for \code{coord_flip()} and \code{coord_polar()}. 
-These functions transform your coordinate space; the \code{coord_*_nsw} equivalent does this \emph{AND} makes corresponding amendments to the NSW Government Brand theme.
-\itemize{
- \item{flip: Flip cartesian coordinates so that horizontal becomes vertical, and vertical, horizontal.}
- \item{polar: The polar coordinate system is most commonly used for pie charts, which are a stacked bar chart in polar coordinates.}
+Coordinate-system wrappers that apply corresponding adjustments to the
+NSW Government plot theme.
 }
+\details{
+\code{coord_flip_nsw()} flips Cartesian coordinates and adjusts the major grid
+lines to suit the flipped axes.
+
+\code{coord_polar_nsw()} transforms Cartesian coordinates to polar coordinates.
+It is intended primarily for pie and donut charts, where a bar chart is
+transformed into a circular layout. It also removes axis lines, ticks,
+labels, titles and grid lines that are generally unnecessary for these
+charts.
 }
 \examples{
-ggplot(data = mpg, mapping = aes(x = class, y = hwy)) +
+library(ggplot2)
+
+# Flipped coordinates
+ggplot(mpg, aes(class, hwy)) +
   geom_boxplot() +
   coord_flip_nsw()
+
+# Pie chart
+ggplot(mpg, aes(x = "", fill = drv)) +
+  geom_bar(width = 1) +
+  coord_polar_nsw(theta = "y")
+
 }
-\references{
-\url{https://nswgov.sharepoint.com/sites/inside-treasury/SitePages/Brand-Hub.aspx}
+\seealso{
+\code{\link[ggplot2:coord_flip]{ggplot2::coord_flip()}}, \code{\link[ggplot2:coord_polar]{ggplot2::coord_polar()}}
 }

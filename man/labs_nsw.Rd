@@ -2,29 +2,45 @@
 % Please edit documentation in R/theme.R
 \name{labs_nsw}
 \alias{labs_nsw}
-\title{A wrapper for labs() with useful defaults}
+\title{Plot labels with useful defaults}
 \usage{
 labs_nsw(title = NULL, x = NULL, ..., tag = NULL, uppercase = FALSE)
 }
 \arguments{
-\item{...}{Arguments passed on to \code{\link[ggplot2]{labs}()}.}
+\item{title}{Plot title.}
 
-\item{uppercase}{If \code{TRUE} (default), will capitalise \code{tag} and \code{title} text.}
+\item{x}{X-axis title. Defaults to \code{NULL}.}
+
+\item{...}{Other arguments passed to \code{\link[ggplot2:labs]{ggplot2::labs()}}.}
+
+\item{tag}{Plot tag. When supplied, it is combined with \code{title}.}
+
+\item{uppercase}{Logical. If \code{TRUE}, convert the tag and title to
+uppercase. Defaults to \code{FALSE}.}
+}
+\value{
+A ggplot2 labels object.
 }
 \description{
-This is the same as using \code{\link[ggplot2]{labs}()}, except \code{labs_nsw()}:
+A wrapper around \code{\link[ggplot2:labs]{ggplot2::labs()}} with defaults used by nswtheme.
+}
+\details{
+Compared with \code{\link[ggplot2:labs]{ggplot2::labs()}}, \code{labs_nsw()}:
 \itemize{
- \item{Puts the \code{tag} and \code{title} together on the same line.}
- \item{Defaults to \code{x = NULL}; since it is usually a date axis which doesn't need to be titled (\code{labs()} default is \code{x = waiver()}).}
- \item{Provides an option to capitalise the \code{tag} and \code{title}.}
+\item combines \code{tag} and \code{title} on the same line;
+\item defaults to \code{x = NULL}, which is useful for untitled date axes; and
+\item can convert the combined tag and title to uppercase.
 }
 }
 \examples{
 library(ggplot2)
 
-ggplot(economics, aes(x = date, y = uempmed)) +
+ggplot(economics, aes(date, uempmed)) +
   geom_line() +
-  labs_nsw(tag = "Figure 0.0:",
-           title = "Median duration of unemployment",
-           y = "Weeks")
+  labs_nsw(
+    tag = "Figure 0.0:",
+    title = "Median duration of unemployment",
+    y = "Weeks"
+  )
+
 }
