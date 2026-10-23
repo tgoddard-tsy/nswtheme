@@ -434,20 +434,12 @@ date_labels_nsw <- function(
 
 # Internal implementation shared by the X and Y date scales.
 scale_date_nsw <- function(
-    axis = c("x", "y"),
-    limits = NULL,
-    by = "1 year",
-    label_every = 1,
-    label_skip = 0,
-    label_between_ticks = FALSE,
-    format = "%Y",
-    FY = FALSE,
-    expand_mult = NULL,
-    expand_add = NULL,
-    oob = scales::oob_keep,
+    axis,
+    limits, by, 
+    label_every, label_skip, label_between_ticks, 
+    format, FY, expand_mult, expand_add, oob,
     ...
 ) {
-  
   axis <- match.arg(axis)
   
   scale_fun <- switch(
@@ -523,21 +515,16 @@ scale_date_nsw <- function(
   # limits use zero expansion and automatically trained limits retain
   # ggplot2's default expansion.
   if (!is.null(expand_mult) || !is.null(expand_add)) {
-    
     expand <- ggplot2::expansion(
       mult = if (is.null(expand_mult)) 0 else expand_mult,
       add = if (is.null(expand_add)) 0 else expand_add
     )
-    
   } else if (!is.null(lim)) {
-    
     expand <- ggplot2::expansion(
       mult = 0,
       add = 0
     )
-    
   } else {
-    
     expand <- ggplot2::waiver()
   }
   
@@ -555,42 +542,30 @@ scale_date_nsw <- function(
     FY = FY
   )
   
-  date_scale <- scale_fun(
-    breaks = breaks,
-    labels = labels,
-    limits = lim,
-    expand = expand,
-    oob = oob,
-    ...
-  )
+  dots <- list(...)
   
-  if (!label_between_ticks) {
-    return(date_scale)
+  if (label_between_ticks) {
+    
+    if (!is.null(dots$guide)) {
+      warning(
+        paste0(
+          "`guide` is ignored when `label_between_ticks = TRUE`, ",
+          "because an internal axis guide is required to suppress ",
+          "the midpoint ticks."
+        ),
+        call. = FALSE
+      )
+    }
+    
+    dots$guide <- guide_axis_between()
   }
   
-  # Break positions alternate between true ticks and midpoint label
-  # positions. Hide the tick marks associated with midpoint positions.
-  tick_theme <- if (axis == "x") {
-    
-    ggplot2::theme(
-      axis.ticks.x = ggplot2::element_line(
-        colour = c(grey_01, NA)
-      )
-    )
-    
-  } else {
-    
-    ggplot2::theme(
-      axis.ticks.y = ggplot2::element_line(
-        colour = c(grey_01, NA)
-      )
-    )
-  }
-  
-  list(
-    date_scale,
-    tick_theme
+  date_scale <- do.call(scale_fun,
+                        c(list(breaks = breaks, labels = labels, limits = lim, expand = expand, oob = oob), 
+                          dots)
   )
+  
+  date_scale
 }
 
 
@@ -608,7 +583,7 @@ scale_date_nsw <- function(
 #' @param by A string giving the distance between breaks or ticks, such as
 #'   `"2 weeks"`, `"3 months"` or `"1 year"`. Defaults to `"1 year"`.
 #' @param label_every Number of periods between displayed labels. Defaults to
-#'   `1`, so every period is labelled.
+#'   `2`, so every second period is labelled.
 #' @param label_skip Number of periods to skip before the first displayed
 #'   label. Defaults to `0`.
 #' @param label_between_ticks If `TRUE`, labels are centred over the periods
@@ -695,7 +670,7 @@ NULL
 scale_x_date_nsw <- function(
     limits = NULL,
     by = "1 year",
-    label_every = 1,
+    label_every = 2,
     label_skip = 0,
     label_between_ticks = FALSE,
     format = "%Y",
@@ -705,7 +680,6 @@ scale_x_date_nsw <- function(
     oob = scales::oob_keep,
     ...
 ) {
-  
   scale_date_nsw(
     axis = "x",
     limits = limits,
@@ -728,7 +702,7 @@ scale_x_date_nsw <- function(
 scale_y_date_nsw <- function(
     limits = NULL,
     by = "1 year",
-    label_every = 1,
+    label_every = 2,
     label_skip = 0,
     label_between_ticks = FALSE,
     format = "%Y",
@@ -738,7 +712,6 @@ scale_y_date_nsw <- function(
     oob = scales::oob_keep,
     ...
 ) {
-  
   scale_date_nsw(
     axis = "y",
     limits = limits,

@@ -9,7 +9,7 @@
 scale_x_date_nsw(
   limits = NULL,
   by = "1 year",
-  label_every = 1,
+  label_every = 2,
   label_skip = 0,
   label_between_ticks = FALSE,
   format = "\%Y",
@@ -23,7 +23,7 @@ scale_x_date_nsw(
 scale_y_date_nsw(
   limits = NULL,
   by = "1 year",
-  label_every = 1,
+  label_every = 2,
   label_skip = 0,
   label_between_ticks = FALSE,
   format = "\%Y",
@@ -45,7 +45,7 @@ determined automatically by ggplot2.}
 \code{"2 weeks"}, \code{"3 months"} or \code{"1 year"}. Defaults to \code{"1 year"}.}
 
 \item{label_every}{Number of periods between displayed labels. Defaults to
-\code{1}, so every period is labelled.}
+\code{2}, so every second period is labelled.}
 
 \item{label_skip}{Number of periods to skip before the first displayed
 label. Defaults to \code{0}.}
