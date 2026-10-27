@@ -440,7 +440,7 @@ scale_date_nsw <- function(
     format, FY, expand_mult, expand_add, oob,
     ...
 ) {
-  axis <- match.arg(axis)
+  axis <- match.arg(axis, c("x", "y"))
   
   scale_fun <- switch(
     axis,
@@ -550,7 +550,7 @@ scale_date_nsw <- function(
       warning(
         paste0(
           "`guide` is ignored when `label_between_ticks = TRUE`, ",
-          "because an internal axis guide is required to suppress ",
+          "because `guide_axis_between()` is required to suppress ",
           "the midpoint ticks."
         ),
         call. = FALSE

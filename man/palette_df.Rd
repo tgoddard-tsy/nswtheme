@@ -7,13 +7,14 @@
 \title{NSW Government colour palette data frame}
 \format{
 A data frame with 6 variables:
-\describe{
-\item{name}{Colour name}
-\item{value}{HEX value}
-\item{colour_col}{Colour column of the palette}
-\item{tonal_row}{Tonal row of the palette - one of "01", "02", "03", or "04"}
-\item{corporate}{\code{TRUE} if colour is for corporate use}
-\item{core}{\code{TRUE} if colour is a core colour}
+\itemize{
+\item \code{name}: colour name.
+\item \code{value}: HEX value.
+\item \code{colour_col}: colour column of the palette.
+\item \code{tonal_row}: tonal row of the palette, one of \code{"01"}, \code{"02"}, \code{"03"},
+or \code{"04"}.
+\item \code{corporate}: \code{TRUE} if the colour is for corporate use.
+\item \code{core}: \code{TRUE} if the colour is a core colour.
 }
 
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 40 rows and 7 columns.
@@ -26,13 +27,17 @@ A dataset containing the NSW Government palette.
 }
 \section{Illustration}{
 
-\if{html}{\figure{nswgov_palette.png}{options: width=750 alt="NSW Government palette"}}
+\if{html}{\figure{nswgov_palette.png}{
+  options: width=750 alt="NSW Government palette"
+}}
 }
 
 \references{
-Masterbrand quick reference guide: \url{https://www.nsw.gov.au/sites/default/files/2022-01/Quick_Reference_Guide_Masterbrand.pdf}
+Masterbrand quick reference guide:
+\url{https://www.nsw.gov.au/sites/default/files/2022-01/Quick_Reference_Guide_Masterbrand.pdf}
 }
 \seealso{
-\code{\link{nswgov_palette}} is a \emph{named vector} equivalent, which does not include additional columns.
+\code{\link{nswgov_palette}} is a \emph{named vector} equivalent, which does not include
+the additional columns.
 }
 \keyword{datasets}

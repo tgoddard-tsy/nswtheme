@@ -60,10 +60,7 @@ GuideAxisBetween <- ggplot2::ggproto(
   }
 )
 
-
-#' Axis guide for labels positioned between ticks
-#'
-##' An axis guide for scales whose breaks alternate between true tick positions
+#' An axis guide for scales whose breaks alternate between true tick positions
 #' and intermediate label positions. Tick marks are drawn only at the true
 #' tick positions, allowing labels supplied at the intermediate positions to
 #' appear centred between ticks.

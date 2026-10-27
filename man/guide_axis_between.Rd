@@ -2,7 +2,10 @@
 % Please edit documentation in R/guide_axis_between.R
 \name{guide_axis_between}
 \alias{guide_axis_between}
-\title{Axis guide for labels positioned between ticks}
+\title{An axis guide for scales whose breaks alternate between true tick positions
+and intermediate label positions. Tick marks are drawn only at the true
+tick positions, allowing labels supplied at the intermediate positions to
+appear centred between ticks.}
 \usage{
 guide_axis_between(
   title = ggplot2::waiver(),
@@ -52,12 +55,6 @@ left, or right.}
 A ggplot2 axis guide.
 }
 \description{
-An axis guide for scales whose breaks alternate between true tick positions
-and intermediate label positions. Tick marks are drawn only at the true
-tick positions, allowing labels supplied at the intermediate positions to
-appear centred between ticks.
-}
-\details{
 Breaks are expected to alternate in the form
 \verb{tick, label position, tick, label position, ...}. The first break and every
 second break thereafter are treated as true tick positions. The guide does

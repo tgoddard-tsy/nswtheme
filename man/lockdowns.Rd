@@ -10,11 +10,11 @@
 \title{Lockdown start and end dates in Australia}
 \format{
 A data frame with 4 variables:
-\describe{
-\item{start}{date the lockdown came into effect}
-\item{end}{date the lockdown was lifted}
-\item{days}{length of lockdown in days}
-\item{name}{Name of lockdown (descriptive only)}
+\itemize{
+\item \code{start}: Date the lockdown came into effect.
+\item \code{end}: Date the lockdown was lifted.
+\item \code{days}: Length of lockdown in days.
+\item \code{name}: Descriptive label for the lockdown period.
 }
 
 An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 2 rows and 4 columns.
@@ -35,13 +35,16 @@ lockdowns_qld
 lockdowns_wa
 }
 \description{
-A dataset containing lockdown periods related to COVID-19, marked by start and end dates. Lockdown is assumed if at least one major city is in lockdown.\cr\cr
+A dataset containing lockdown periods related to COVID-19, marked by start
+and end dates. Lockdown is assumed if at least one major city is in lockdown.
+}
+\details{
 Lockdowns for:
 \itemize{
-\item{New South Wales (not including the Northern Beaches lockdown)}
-\item{Victoria}
-\item{Queensland}
-\item{Western Australia}
+\item New South Wales (not including the Northern Beaches lockdown)
+\item Victoria
+\item Queensland
+\item Western Australia
 }
 }
 \keyword{datasets}

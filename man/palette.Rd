@@ -16,13 +16,17 @@ NSW Government palette in the form of a named vector.
 }
 \section{Illustration}{
 
-\if{html}{\figure{nswgov_palette.png}{options: width=750 alt="NSW Government palette"}}
+\if{html}{\figure{nswgov_palette.png}{
+  options: width=750 alt="NSW Government palette"
+}}
 }
 
 \references{
-Masterbrand quick reference guide: \url{https://www.nsw.gov.au/sites/default/files/2022-01/Quick_Reference_Guide_Masterbrand.pdf}
+Masterbrand quick reference guide:
+\url{https://www.nsw.gov.au/sites/default/files/2022-01/Quick_Reference_Guide_Masterbrand.pdf}
 }
 \seealso{
-\code{\link{nswgov_palette_df}} is a \emph{dataframe} equivalent with additional information.
+\code{\link{nswgov_palette_df}} is a \emph{data frame} equivalent with additional
+information.
 }
 \keyword{datasets}
