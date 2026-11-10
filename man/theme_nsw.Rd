@@ -6,15 +6,20 @@
 \title{NSW Government ggplot theme}
 \usage{
 theme_nsw(
-  budget = FALSE,
   textbox = FALSE,
-  base_size = 9,
-  base_line_size = base_size/22,
-  base_family = "Public Sans",
-  header_family = "Public Sans SemiBold",
-  ink = grey_01,
-  paper = "white",
-  accent = grey_04,
+  gridlines = NULL,
+  palette_variant = NULL,
+  base_size = NULL,
+  base_line_size = NULL,
+  base_family = NULL,
+  header_family = NULL,
+  ink = NULL,
+  paper = NULL,
+  accent = NULL,
+  ink_geom = NULL,
+  ink_title = blue_01,
+  strip_background = NULL,
+  strip_text = NULL,
   legend.position = "inside",
   legend.position.inside = c(0.02, 0.98),
   legend.justification = c(0, 1),
@@ -22,7 +27,6 @@ theme_nsw(
 )
 
 theme_nsw_map(
-  budget = FALSE,
   water_background = FALSE,
   textbox = FALSE,
   base_size = 9,
@@ -38,10 +42,12 @@ theme_nsw_map(
 )
 }
 \arguments{
-\item{budget}{Logical. If \code{TRUE}, use the Budget variant of the theme.}
-
 \item{textbox}{Logical. If \code{TRUE}, use ggtext textbox elements for the
 plot title and caption.}
+
+\item{gridlines}{Character string specifying which major grid lines to
+display. One of \code{"both"}, \code{"y"}, \code{"x"} or \code{"none"}. If \code{NULL}, the
+selected style determines the default.}
 
 \item{base_size}{Base font size, in points.}
 

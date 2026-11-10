@@ -16,11 +16,13 @@ Imports:
     extrafont,
     flextable,
     lubridate,
-    scales
+    scales,
+    systemfonts
 Suggests: 
     ggpattern,
     ggtext,
     knitr,
+    pkgload,
     rmarkdown
 Encoding: UTF-8
 LazyData: true

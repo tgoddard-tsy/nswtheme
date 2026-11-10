@@ -67,11 +67,13 @@ NULL
 #'
 #' @format A data frame with 6 variables:
 #'
-#' * `name`: colour name.
+#' * `full_name`: formatted colour name, e.g. `"Blue 01"`.
+#' * `name`: programmatic colour name, e.g. `"blue_01"`.
 #' * `value`: HEX value.
 #' * `colour_col`: colour column of the palette.
 #' * `tonal_row`: tonal row of the palette, one of `"01"`, `"02"`, `"03"`,
 #'   or `"04"`.
+#' * `variant`: palette grid, currently `"base"` or `"aboriginal"`.
 #' * `corporate`: `TRUE` if the colour is for corporate use.
 #' * `core`: `TRUE` if the colour is a core colour.
 #'
@@ -97,13 +99,19 @@ NULL
 
 #' NSW Government colour palette
 #'
-#' NSW Government palette in the form of a named vector.
+#' NSW Government palette in the form of a named character vector.
+#' Names are programmatic colour identifiers such as `"blue_01"` and
+#' `"billabong_blue"`; values are hexadecimal colour values.
 #'
 #' @section Illustration:
 #' \if{html}{\figure{nswgov_palette.png}{
 #'   options: width=750 alt="NSW Government palette"
 #' }}
 #'
+#' @examples
+#' nswgov_palette["blue_01"]
+#' nswgov_palette["billabong_blue"]
+#' 
 #' @references
 #' Masterbrand quick reference guide:
 #' <https://www.nsw.gov.au/sites/default/files/2022-01/Quick_Reference_Guide_Masterbrand.pdf>

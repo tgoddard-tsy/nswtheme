@@ -8,16 +8,18 @@
 \format{
 A data frame with 6 variables:
 \itemize{
-\item \code{name}: colour name.
+\item \code{full_name}: formatted colour name, e.g. \code{"Blue 01"}.
+\item \code{name}: programmatic colour name, e.g. \code{"blue_01"}.
 \item \code{value}: HEX value.
 \item \code{colour_col}: colour column of the palette.
 \item \code{tonal_row}: tonal row of the palette, one of \code{"01"}, \code{"02"}, \code{"03"},
 or \code{"04"}.
+\item \code{variant}: palette grid, currently \code{"base"} or \code{"aboriginal"}.
 \item \code{corporate}: \code{TRUE} if the colour is for corporate use.
 \item \code{core}: \code{TRUE} if the colour is a core colour.
 }
 
-An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 40 rows and 7 columns.
+An object of class \code{tbl_df} (inherits from \code{tbl}, \code{data.frame}) with 72 rows and 8 columns.
 }
 \usage{
 nswgov_palette_df

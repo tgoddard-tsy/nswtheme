@@ -8,6 +8,7 @@
 nswgov_pal(
   colour_cols = NULL,
   tonal_rows = NULL,
+  variant = NULL,
   hierarchy = c("colour_col", "tonal_row"),
   colours = NULL,
   reverse = FALSE,
