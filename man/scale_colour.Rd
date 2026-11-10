@@ -14,6 +14,7 @@
 scale_colour_nsw(
   colour_cols = NULL,
   tonal_rows = NULL,
+  variant = NULL,
   hierarchy = c("colour_col", "tonal_row"),
   colours = NULL,
   reverse = FALSE,
@@ -23,6 +24,7 @@ scale_colour_nsw(
 scale_fill_nsw(
   colour_cols = NULL,
   tonal_rows = NULL,
+  variant = NULL,
   hierarchy = c("colour_col", "tonal_row"),
   colours = NULL,
   reverse = FALSE,
@@ -57,6 +59,7 @@ scale_fill_nsw_gradient(
 scale_pattern_fill_nsw(
   colour_cols = NULL,
   tonal_rows = NULL,
+  variant = NULL,
   hierarchy = c("colour_col", "tonal_row"),
   colours = NULL,
   reverse = FALSE,

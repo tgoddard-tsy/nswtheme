@@ -7,42 +7,72 @@
 \usage{
 set_defaults_nsw(
   style = NULL,
+  palette_variant = "base",
   textbox = FALSE,
+  gridlines = NULL,
   base_size = NULL,
   base_line_size = NULL,
-  base_family = "Public Sans",
-  header_family = "Public Sans SemiBold",
+  base_family = NULL,
+  header_family = NULL,
   ink = NULL,
   paper = NULL,
   accent = NULL,
-  ink_geom = NULL
+  ink_geom = NULL,
+  strip_background = NULL,
+  strip_text = NULL
 )
 }
 \arguments{
 \item{style}{Optional character string selecting a preset style.
-Available styles are \code{"Core"}, \code{"Health"}, \code{"Treasury"} and
-\code{"Budget"}. If \code{NULL}, the default NSW Government style is used.
-Style names are not case-sensitive.}
+It is not case-sensitive.
+Available styles are \code{"Default"}, \code{"Core"}, \code{"Health"}, \code{"Treasury"},
+\code{"Budget"} and \code{"Aboriginal"}.
+If \code{NULL}, the default NSW Government style is used.}
+
+\item{palette_variant}{Character string selecting the colour-grid variant.
+Currently \code{"base"} or \code{"aboriginal"}. The selected variant is used by
+default discrete colour and fill palettes.
+It is not case-sensitive.}
 
 \item{textbox}{Logical. If \code{TRUE}, use ggtext textbox elements for
 supported plot text.}
 
-\item{base_size}{Base font size, in points.}
+\item{gridlines}{Character string specifying which major grid lines to
+display. One of \code{"both"}, \code{"y"}, \code{"x"} or \code{"none"}.
+If \code{NULL}, the selected style determines the default.}
 
-\item{base_line_size}{Base line width. If \code{NULL}, calculated from
-\code{base_size}.}
+\item{base_size}{Base font size, in points.
+If \code{NULL}, determined by the selected style.}
 
-\item{base_family}{Font family used for general text.}
+\item{base_line_size}{Base line width.
+If \code{NULL}, calculated from \code{base_size}.}
 
-\item{header_family}{Font family used for headings and text geoms.}
+\item{base_family}{Font family used for general text.
+If \code{NULL}, determined by the selected style.}
 
-\item{ink}{Foreground colour used for text, axes and reference lines.}
+\item{header_family}{Font family used for headings and text geoms.
+If \code{NULL}, determined by the selected style.}
 
-\item{paper}{Plot background colour.}
+\item{ink}{Foreground colour used for text, axes and reference lines.
+If \code{NULL}, determined by the selected style.}
 
-\item{accent}{Accent colour used for grid lines and other theme elements.}
+\item{paper}{Plot background colour.
+If \code{NULL}, determined by the selected style.}
 
-\item{ink_geom}{Default colour or fill used for common data geoms.}
+\item{accent}{Accent colour used for grid lines and other theme elements.
+If \code{NULL}, determined by the selected style.}
+
+\item{ink_geom}{Default colour or fill used for common data geoms.
+If \code{NULL}, determined by the selected style and palette variant.}
+
+\item{strip_background}{Background colour used for facet strips.
+If \code{NULL}, determined by the selected style.}
+
+\item{strip_text}{Text colour used for facet strips.
+If \code{NULL}, determined by the selected style.}
+}
+\value{
+Invisibly returns the resolved \code{nswtheme.defaults} list.
 }
 \description{
 Configures the current R session to use NSW Government themes,
@@ -63,9 +93,12 @@ Government brands, or individual theme settings can be customised.
 \item \code{"Treasury"}: NSW Treasury palette defaults.
 \item \code{"Budget"}: Budget publication defaults.
 \item \code{"Core"}: NSW Government core colours (Blue 01 and Red 02 only).
+\item \code{"Aboriginal"}: standard NSW Government defaults using the Aboriginal
+colour-grid variant.
 }
 
-Explicit theme arguments can be used to customise the selected preset.
+Explicit theme arguments override values supplied by the selected preset.
+Arguments left as \code{NULL} use the corresponding style default.
 }
 
 \section{What this function changes}{
@@ -80,8 +113,9 @@ R session:
 \item flextable formatting defaults.
 }
 
-Palette settings used by nswtheme are also stored in the
-\code{nswtheme.defaults} option.
+Resolved style, palette and theme settings are also stored in the
+\code{nswtheme.defaults} option so they can be reused by other nswtheme
+functions.
 }
 
 \section{Optional extensions}{
@@ -109,8 +143,13 @@ set_defaults_nsw("Treasury")
 set_defaults_nsw(
   "Treasury",
   base_size = 10,
-  ink_geom = red_02
+  ink_geom = red_02,
+  gridlines = "both"
 )
+
+
+# Use the Aboriginal colour grid as the session default
+set_defaults_nsw(palette_variant = "aboriginal")
 
 }
 \seealso{

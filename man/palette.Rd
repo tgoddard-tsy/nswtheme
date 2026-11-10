@@ -6,13 +6,15 @@
 \alias{nswgov_palette}
 \title{NSW Government colour palette}
 \format{
-An object of class \code{character} of length 40.
+An object of class \code{character} of length 72.
 }
 \usage{
 nswgov_palette
 }
 \description{
-NSW Government palette in the form of a named vector.
+NSW Government palette in the form of a named character vector.
+Names are programmatic colour identifiers such as \code{"blue_01"} and
+\code{"billabong_blue"}; values are hexadecimal colour values.
 }
 \section{Illustration}{
 
@@ -21,6 +23,11 @@ NSW Government palette in the form of a named vector.
 }}
 }
 
+\examples{
+nswgov_palette["blue_01"]
+nswgov_palette["billabong_blue"]
+
+}
 \references{
 Masterbrand quick reference guide:
 \url{https://www.nsw.gov.au/sites/default/files/2022-01/Quick_Reference_Guide_Masterbrand.pdf}

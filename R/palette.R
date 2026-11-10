@@ -181,6 +181,40 @@ brown_03 <- "#e8d0b5"
 brown_04 <- "#ede3d7"
 
 
+validate_palette_variant <- function(variant = NULL) {
+  
+  if (is.null(variant)) {
+    defaults_list <- getOption("nswtheme.defaults", list())
+    
+    variant <- defaults_list$variant
+  }
+  
+  if (is.null(variant)) {
+    variant <- "base"
+  }
+  
+  variant <- tolower(variant)
+  
+  valid_variants <- unique(
+    nswgov_palette_df$variant
+  )
+  
+  if (
+    length(variant) != 1L ||
+    is.na(variant) ||
+    !variant %in% valid_variants
+  ) {
+    stop(
+      "`variant` must be one of: ",
+      paste(valid_variants, collapse = ", "),
+      ".",
+      call. = FALSE
+    )
+  }
+  
+  variant
+}
+
 #' NSW Government colour palette function
 #' 
 #' A palette function for selecting colours from the  \emph{NSW Government} palette. \code{nswgov_pal()} returns a function that generates the requested number of colours.
@@ -243,6 +277,7 @@ NULL
 nswgov_pal <- function(
     colour_cols = NULL,
     tonal_rows = NULL,
+    variant = NULL,
     hierarchy = c("colour_col", "tonal_row"),
     colours = NULL,
     reverse = FALSE,
@@ -251,22 +286,24 @@ nswgov_pal <- function(
   
   function(n) {
     
-    defaults <- getOption("nswtheme.defaults", list())
+    defaults_list <- getOption("nswtheme.defaults", list())
+    
+    variant <- validate_palette_variant(variant)
     
     # 1. Exact colours supplied directly
     if (!is.null(colours)) {
       colours_out <- colours
       
       # 2. Exact palette supplied by set_defaults_nsw()
-    } else if (is.null(colour_cols) && !is.null(defaults$colours)) {
-      colours_out <- defaults$colours
+    } else if (is.null(colour_cols) && !is.null(defaults_list$colours)) {
+      colours_out <- defaults_list$colours
       
       # 3. Build a palette from colour columns and tonal rows
     } else {
       
       # Use preset or standard colour columns
       if (is.null(colour_cols)) {
-        colour_cols <- defaults$colour_cols
+        colour_cols <- defaults_list$colour_cols
         
         if (is.null(colour_cols)) {
           colour_cols <- c(
@@ -310,6 +347,7 @@ nswgov_pal <- function(
       
       # Filter palette
       keep <-
+        nswgov_palette_df$variant == variant &
         nswgov_palette_df$colour_col %in% colour_cols_formatted &
         nswgov_palette_df$tonal_row %in% tonal_rows_formatted
       
@@ -365,10 +403,10 @@ nswgov_ramp_pal <- function(colours = NULL, na.colour = grey_04, reverse = FALSE
   # If colour_cols not specified by user, try preset defaults:
   if (is.null(colours)) {
     
-    defaults <- getOption("nswtheme.defaults")
+    defaults_list <- getOption("nswtheme.defaults")
     
-    if (!is.null(defaults$ramp_colours)) {
-      colours <- defaults$ramp_colours
+    if (!is.null(defaults_list$gradient_colours)) {
+      colours <- defaults_list$gradient_colours
     } else {
       colours <- c(red_03,blue_01)
     }
@@ -438,14 +476,36 @@ NULL
 # Discrete scales:
 #' @rdname scale_colour
 #' @export
-scale_colour_nsw <- function (colour_cols = NULL, tonal_rows = NULL, hierarchy = c("colour_col", "tonal_row"), colours = NULL, reverse = FALSE, ...){
-  ggplot2::discrete_scale(aesthetics = "colour", palette = nswgov_pal(colour_cols, tonal_rows, hierarchy, colours, reverse), ...)
+scale_colour_nsw <- function (colour_cols = NULL, tonal_rows = NULL, variant = NULL, hierarchy = c("colour_col", "tonal_row"), colours = NULL, reverse = FALSE, ...){
+  ggplot2::discrete_scale(
+    aesthetics = "colour", 
+    palette = nswgov_pal(
+      colour_cols = colour_cols, 
+      tonal_rows = tonal_rows, 
+      variant = variant, 
+      hierarchy = hierarchy, 
+      colours = colours, 
+      reverse = reverse
+      ), 
+    ...
+    )
 }
 
 #' @rdname scale_colour
 #' @export
-scale_fill_nsw <- function (colour_cols = NULL, tonal_rows = NULL, hierarchy = c("colour_col", "tonal_row"), colours = NULL, reverse = FALSE, ...){
-  ggplot2::discrete_scale(aesthetics = "fill", palette = nswgov_pal(colour_cols, tonal_rows, hierarchy, colours, reverse), ...)
+scale_fill_nsw <- function (colour_cols = NULL, tonal_rows = NULL, variant = NULL, hierarchy = c("colour_col", "tonal_row"), colours = NULL, reverse = FALSE, ...){
+  ggplot2::discrete_scale(
+    aesthetics = "fill", 
+    palette = nswgov_pal(
+      colour_cols = colour_cols, 
+      tonal_rows = tonal_rows, 
+      variant = variant, 
+      hierarchy = hierarchy, 
+      colours = colours, 
+      reverse = reverse
+    ), 
+    ...
+  )
 }
 
 #' @rdname scale_colour
@@ -466,10 +526,10 @@ scale_fill_nsw_ramp <- function (colours = NULL, na.colour = grey_04, reverse = 
 scale_colour_nsw_gradient <- function (colours = NULL, na.value = grey_04, binned = FALSE, reverse = FALSE, ...){
   
   if (is.null(colours)) {
-    defaults <- getOption("nswtheme.defaults")
+    defaults_list <- getOption("nswtheme.defaults")
     
-    if (!is.null(defaults$gradient_colours)) {
-      colours <- defaults$gradient_colours
+    if (!is.null(defaults_list$gradient_colours)) {
+      colours <- defaults_list$gradient_colours
     } else {
       colours <- c(blue_03, blue_01)
     }
@@ -489,10 +549,10 @@ scale_colour_nsw_gradient <- function (colours = NULL, na.value = grey_04, binne
 scale_fill_nsw_gradient <- function (colours = NULL, na.value = grey_04, binned = FALSE, reverse = FALSE, ...){
   
   if (is.null(colours)) {
-    defaults <- getOption("nswtheme.defaults")
+    defaults_list <- getOption("nswtheme.defaults")
     
-    if (!is.null(defaults$gradient_colours)) {
-      colours <- defaults$gradient_colours
+    if (!is.null(defaults_list$gradient_colours)) {
+      colours <- defaults_list$gradient_colours
     } else {
       colours <- c(blue_03, blue_01)
     }
@@ -511,13 +571,24 @@ scale_fill_nsw_gradient <- function (colours = NULL, na.value = grey_04, binned 
 # Pattern scales:
 #' @rdname scale_colour
 #' @export
-scale_pattern_fill_nsw <- function (colour_cols = NULL, tonal_rows = NULL, hierarchy = c("colour_col", "tonal_row"), colours = NULL, reverse = FALSE, patterns = NULL, ...){
+scale_pattern_fill_nsw <- function (colour_cols = NULL, tonal_rows = NULL, variant = NULL, hierarchy = c("colour_col", "tonal_row"), colours = NULL, reverse = FALSE, patterns = NULL, ...){
   if (is.null(patterns)) {
     patterns <- c("none", "stripe", "circle", "crosshatch", "wave")
   }
   
   list(
-      ggplot2::discrete_scale(aesthetics = "pattern_fill", palette = nswgov_pal(colour_cols, tonal_rows, hierarchy, reverse, pattern = TRUE), ...),
+      ggplot2::discrete_scale(
+        aesthetics = "pattern_fill", 
+        palette = nswgov_pal(
+          colour_cols = colour_cols, 
+          tonal_rows = tonal_rows, 
+          variant = variant, 
+          hierarchy =hierarchy, 
+          colours = colours,
+          reverse = reverse, 
+          pattern = TRUE)
+        , 
+        ...),
       ggpattern::scale_pattern_manual(values = patterns)
     )
 }
